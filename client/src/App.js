@@ -1,18 +1,13 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function App() {
-    const [name, setName] = useState('');
-    useEffect(() => {
-        fetch('/shop')
-            .then((res) => res.json())
-            .then((data) => setName(data.name));
-    }, []);
-    console.log(name);
     return (
         <div className="App">
-            Learn React
-            <div>Name: {name}</div>
+            <br />
+            <Link to="/about">about</Link>
+            <br />
+            <Link to="/name">shop</Link>
         </div>
     );
 }
