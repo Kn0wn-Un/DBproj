@@ -12,19 +12,23 @@ app.get('/shop', (req, res) => {
 
     // create the connection to database
     const connection = mysql.createConnection({
-        host: 'remotemysql.com',
-        user: 'REXhJJZHIB',
-        password: 'lScmGPJoo5',
-        database: 'REXhJJZHIB',
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'example',
     });
-    connection.query('SELECT * FROM `test`', function (err, results) {
-        if (err) throw err;
-        const arr = results.map((table) => {
-            return { id: table.id, name: table.name };
-        });
-        //console.log(arr);
-        res.json(arr);
-    });
+    connection.query(
+        'SELECT * FROM `shows` WHERE `name` = ?',
+        'Gravity Falls',
+        function (err, results) {
+            if (err) throw err;
+            const arr = results.map((table) => {
+                return { ...table };
+            });
+            console.log(arr);
+            res.json(arr);
+        }
+    );
 });
 
 app.get('*', (req, res) => {
