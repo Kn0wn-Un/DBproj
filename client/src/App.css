@@ -1,3 +1,17 @@
 .App {
     text-align: center;
 }
+img {
+    align-self: center;
+    max-height: 50vh;
+    max-width: 20vw;
+}
+.show-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.details {
+    margin: 10px;
+    text-align: start;
+}

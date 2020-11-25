@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('/shop', (req, res) => {
+app.get('/api/shows', (req, res) => {
     const name = 'Something';
 
     // create the connection to database
@@ -22,13 +22,17 @@ app.get('/shop', (req, res) => {
         'Gravity Falls',
         function (err, results) {
             if (err) throw err;
-            const arr = results.map((table) => {
-                return { ...table };
-            });
-            console.log(arr);
-            res.json(arr);
+            //const arr = results.map((table) => {
+            //    return { ...table };
+            //});
+            console.log('sent details');
+            res.json(results[0]);
         }
     );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
 });
 
 app.get('*', (req, res) => {

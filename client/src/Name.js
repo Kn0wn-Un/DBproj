@@ -2,20 +2,38 @@ import './App.css';
 import { useEffect, useState } from 'react';
 
 function Name() {
-    const [name, setName] = useState([]);
+    const [name, setName] = useState({});
     const [gotData, setGot] = useState(false);
+    const mkSeasons = () => {
+        const sArr = eval(name.seasons).map((season, index) => {
+            return (
+                <li key={index}>
+                    <div>Season {index + 1}</div>
+                    <div>Episodes: {season.nb_episodes}</div>
+                </li>
+            );
+        });
+        return sArr;
+    };
     const mkArr = () => {
         return (
-            <div>
-                <img alt={name[0].name} src={name[0].poster_image}></img>
-                <h1>{name[0].name}</h1>
-                <h4>{name[0].network}</h4>
+            <div className="show-details">
+                <img alt={name.name} src={name.poster_image}></img>
+                <div className="details">
+                    <h1>{name.name}</h1>
+                    <h4>Network: {name.network}</h4>
+                    <div>Number of Seasons: {name.number_of_seasons}</div>
+                    <div></div>
+                    <ul>{mkSeasons()}</ul>
+                    <br />
+                    <div>Average Runtime: {name.runtime} mins</div>
+                </div>
             </div>
         );
     };
     useEffect(() => {
         console.log('Hello World from Name');
-        fetch('/shop')
+        fetch('/api/shows')
             .then((res) => res.json())
             .then((data) => {
                 setName(data);
