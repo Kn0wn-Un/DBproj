@@ -7,7 +7,7 @@ function App() {
             <br />
             <Link to="/about">about</Link>
             <br />
-            <Link to="/name">shop</Link>
+            <Link to="/name">Gravity Falls</Link>
         </div>
     );
 }

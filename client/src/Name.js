@@ -5,10 +5,13 @@ function Name() {
     const [name, setName] = useState([]);
     const [gotData, setGot] = useState(false);
     const mkArr = () => {
-        const nameArr = name.map((row) => {
-            return <li key={row.id}>{row.name}</li>;
-        });
-        return nameArr;
+        return (
+            <div>
+                <img alt={name[0].name} src={name[0].poster_image}></img>
+                <h1>{name[0].name}</h1>
+                <h4>{name[0].network}</h4>
+            </div>
+        );
     };
     useEffect(() => {
         console.log('Hello World from Name');
