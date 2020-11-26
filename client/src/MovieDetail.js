@@ -6,13 +6,11 @@ function MovieDetail({ match }) {
     const [gotData, setGot] = useState(false);
     const [poster, setPoster] = useState('');
     const getPoster = async (id) => {
-        const details = await fetch(
-            `http://www.omdbapi.com/?i=${id}&apikey=7b26edf7`
-        );
-        await details.then((data) => {
-            setPoster(data.Poster);
-        });
-        console.log(poster);
+        await fetch(`http://www.omdbapi.com/?i=${id}&apikey=7b26edf7`)
+            .then((res) => res.json())
+            .then((data) => {
+                setPoster(data.Poster);
+            });
     };
     const showMovie = () => {
         return (
@@ -41,13 +39,13 @@ function MovieDetail({ match }) {
                 setmovie(data);
                 setGot(true);
             });
-        getPoster(movie.imdb_id);
         return () => {
             console.log('Unmounted Movie');
         };
     }, []);
     useEffect(() => {
         console.log(movie);
+        getPoster(movie.imdb_id);
     }, [gotData]);
     return (
         <div className="App">
