@@ -1,7 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 
-function Name() {
+function ShowDetail({ match }) {
     const [name, setName] = useState({});
     const [gotData, setGot] = useState(false);
     const mkSeasons = () => {
@@ -26,14 +26,15 @@ function Name() {
                     <div></div>
                     <ul>{mkSeasons()}</ul>
                     <br />
-                    <div>Average Runtime: {name.runtime} mins</div>
+                    <div>Average Duration: {name.runtime} mins</div>
                 </div>
             </div>
         );
     };
     useEffect(() => {
         console.log('Hello World from Name');
-        fetch('/api/shows')
+        console.log(match.params.id);
+        fetch(`/api/shows?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
                 setName(data);
@@ -51,4 +52,4 @@ function Name() {
     );
 }
 
-export default Name;
+export default ShowDetail;
