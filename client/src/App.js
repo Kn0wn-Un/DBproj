@@ -17,22 +17,15 @@ function App() {
     }, []);
     return (
         <div className="App">
-            <br />
-            <Link to="/about">about</Link>
-            <br />
-            <ul>
-                {rows.length === 0
-                    ? 'loading...'
-                    : rows.map((row) => {
-                          return (
-                              <div key={row.id}>
-                                  <Link to={`/shows/${row.id}`}>
-                                      {row.name}
-                                  </Link>
-                              </div>
-                          );
-                      })}
-            </ul>
+            {rows.length === 0
+                ? 'loading...'
+                : rows.map((row) => {
+                      return (
+                          <div key={row.id}>
+                              <Link to={`/shows/${row.id}`}>{row.name}</Link>
+                          </div>
+                      );
+                  })}
             <br />
             <Link to={`/movies/${20000}`}>Movie!</Link>
         </div>

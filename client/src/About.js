@@ -7,7 +7,7 @@ function About() {
             console.log('Unmounted About');
         };
     }, []);
-    return <div className="App">About X</div>;
+    return <div className="App">About User</div>;
 }
 
 export default About;

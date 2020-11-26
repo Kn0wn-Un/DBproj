@@ -1,4 +1,4 @@
-import './App.css';
+import './styles.css';
 import { useEffect, useState } from 'react';
 
 function ShowDetail({ match }) {
@@ -8,25 +8,37 @@ function ShowDetail({ match }) {
         const sArr = eval(name.seasons).map((season, index) => {
             return (
                 <li key={index}>
-                    <div>Season {index + 1}</div>
-                    <div>Episodes: {season.nb_episodes}</div>
+                    <span className="heading">Season {index + 1}: </span>
+                    <span>{season.nb_episodes} episodes</span>
                 </li>
             );
         });
         return sArr;
     };
-    const mkArr = () => {
+    const viewShow = () => {
         return (
             <div className="show-details">
                 <img alt={name.name} src={name.poster_image}></img>
-                <div className="details">
-                    <h1>{name.name}</h1>
-                    <h4>Network: {name.network}</h4>
-                    <div>Number of Seasons: {name.number_of_seasons}</div>
-                    <div></div>
-                    <ul>{mkSeasons()}</ul>
-                    <br />
-                    <div>Average Duration: {name.runtime} mins</div>
+                <div className="holder">
+                    <div className="details">
+                        <h2 className="name">{name.name}</h2>
+                        <div>
+                            <span className="heading">Network: </span>
+                            {name.network}
+                        </div>
+                        <br />
+                        <div>
+                            <span className="heading">Number of Seasons: </span>{' '}
+                            {name.number_of_seasons}
+                        </div>
+                        <ul>{mkSeasons()}</ul>
+                        <br />
+                        <div>
+                            <span className="heading">Average Duration: </span>{' '}
+                            {name.runtime} mins
+                        </div>
+                    </div>
+                    <div className="show-form">Collect details</div>
                 </div>
             </div>
         );
@@ -48,7 +60,9 @@ function ShowDetail({ match }) {
         console.log(name);
     }, [gotData]);
     return (
-        <div className="App">{gotData ? <ol>{mkArr()}</ol> : 'loading'} </div>
+        <div className="App">
+            {gotData ? <ol>{viewShow()}</ol> : 'loading'}{' '}
+        </div>
     );
 }
 

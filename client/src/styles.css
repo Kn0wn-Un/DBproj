@@ -1,0 +1,69 @@
+body {
+    margin: 0px;
+    min-height: 100%;
+    background-color: rgb(255, 255, 255);
+}
+a,
+a:after {
+    text-decoration: none;
+    color: black;
+}
+.navigation {
+    min-width: 100%;
+    padding: 10px;
+    background-color: rgb(255, 80, 80);
+    display: flex;
+    flex-direction: row;
+}
+.nav-link {
+    align-self: center;
+    margin-left: 5vw;
+    font-size: 18px;
+}
+.nav-div:hover {
+    border-bottom: 5px solid black;
+}
+.nav-div {
+    margin: 30px 0px;
+    padding: 30px;
+    color: whitesmoke;
+}
+h1 {
+    margin: 15px 0px;
+}
+.App {
+    text-align: center;
+}
+img {
+    height: 50vh;
+    width: 20vw;
+    border: 2px solid black;
+    box-shadow: 0px 0px 25px black;
+}
+.show-details {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    padding: 10px;
+    min-width: 100%;
+}
+.holder {
+    flex-grow: 1;
+}
+.details {
+    padding: 10px 20px;
+    text-align: start;
+    min-height: 25vh;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+.show-form {
+    min-height: 25vh;
+    border-top: 2px solid black;
+}
+ol {
+    padding: 0px;
+    margin: 0px;
+}
+.heading {
+    font-weight: bold;
+}
