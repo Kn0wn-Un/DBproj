@@ -44,7 +44,7 @@ function ShowDetail({ match }) {
         );
     };
     useEffect(() => {
-        console.log('Hello World from Name');
+        console.log('Hello World Show Detail');
         console.log(match.params.id);
         fetch(`/api/shows?id=${match.params.id}`)
             .then((res) => res.json())
@@ -53,7 +53,7 @@ function ShowDetail({ match }) {
                 setGot(true);
             });
         return () => {
-            console.log('Unmounted Name');
+            console.log('Unmounted Show Detail');
         };
     }, []);
     useEffect(() => {

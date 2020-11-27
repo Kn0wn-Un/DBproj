@@ -78,6 +78,56 @@ app.get('/api/search', (req, res) => {
     console.log('teminated connection...');
 });
 
+app.get('/api/search/shows', (req, res) => {
+    let { name } = req.query;
+    name = '%' + name + '%';
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM `shows` WHERE `name` LIKE ?',
+        name,
+        function (err, results) {
+            if (err) throw err;
+            console.log('show search');
+            res.json(results);
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/search/movies', (req, res) => {
+    let { name } = req.query;
+    name = '%' + name + '%';
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM `movies` WHERE `name` LIKE ?',
+        name,
+        function (err, results) {
+            if (err) throw err;
+            console.log('movie search');
+            res.json(results);
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });

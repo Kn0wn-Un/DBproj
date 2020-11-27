@@ -10,7 +10,8 @@ function MovieDetail({ match }) {
             .then((res) => res.json())
             .then((data) => {
                 setPoster(data.Poster);
-            });
+            })
+            .catch(() => {});
     };
     const showMovie = () => {
         return (
