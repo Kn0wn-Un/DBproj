@@ -1,4 +1,4 @@
-import './App.css';
+import './styles.css';
 import { useEffect, useState } from 'react';
 
 function MovieDetail({ match }) {
@@ -17,16 +17,42 @@ function MovieDetail({ match }) {
         return (
             <div className="show-details">
                 <img alt={movie.name} src={poster}></img>
-                <div className="details">
-                    <h1>{movie.name}</h1>
-                    <h4>Year: {movie.year}</h4>
-                    <div>Genre: {movie.genre}</div>
-                    <div>Production Company: {movie.production_company}</div>
-                    <div>Duration: {movie.duration} mins</div>
-                    <div>Writer: {movie.writer}</div>
-                    <div>Director: {movie.director}</div>
-                    <div>Actors: {movie.actors}</div>
-                    <div>Summary: {movie.description}</div>
+                <div className="holder">
+                    <div className="details">
+                        <h1>{movie.name}</h1>
+                        <div>
+                            <span className="heading">Year:</span> {movie.year}
+                        </div>
+                        <div>
+                            <span className="heading">Genre:</span>{' '}
+                            {movie.genre}
+                        </div>
+                        <div>
+                            <span className="heading">Production Company:</span>{' '}
+                            {movie.production_company}
+                        </div>
+                        <div>
+                            <span className="heading">Duration:</span>{' '}
+                            {movie.duration} mins
+                        </div>
+                        <div>
+                            <span className="heading">Writer:</span>{' '}
+                            {movie.writer}
+                        </div>
+                        <div>
+                            <span className="heading">Director:</span>{' '}
+                            {movie.director}
+                        </div>
+                        <div className="limit">
+                            <span className="heading">Actors:</span>{' '}
+                            {movie.actors}
+                        </div>
+                        <div className="limit">
+                            <span className="heading">Summary:</span>{' '}
+                            {movie.description}
+                        </div>
+                    </div>
+                    <div className="show-form">Collect details</div>
                 </div>
             </div>
         );

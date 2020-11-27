@@ -26,7 +26,7 @@ a:after {
 .nav-div {
     margin: 30px 0px;
     padding: 30px;
-    color: whitesmoke;
+    color: black;
 }
 h1 {
     margin: 15px 0px;
@@ -66,4 +66,37 @@ ol {
 }
 .heading {
     font-weight: bold;
+}
+.details div {
+    margin-top: 10px;
+}
+.limit {
+    max-width: 50vw;
+}
+.searchbox {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    background-color: #eee;
+    margin: 5vh 0px 5vh 10vw;
+    min-height: 33px;
+    min-width: 275px;
+}
+
+.searchbox:focus {
+    outline: none;
+    border-color: red;
+}
+.srch-btn {
+    background-color: #eee;
+    border: none;
+    min-height: 35px;
+    position: relative;
+    top: 6px;
+    left: -40px;
+}
+.srch-btn:hover {
+    transform: scale(1.1);
+    border: 2px solid red;
 }

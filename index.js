@@ -1,6 +1,6 @@
 const express = require('express');
+//to get the client
 const path = require('path');
-// get the client
 const mysql = require('mysql2');
 
 const app = express();

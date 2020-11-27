@@ -26,13 +26,11 @@ function ShowDetail({ match }) {
                             <span className="heading">Network: </span>
                             {name.network}
                         </div>
-                        <br />
                         <div>
                             <span className="heading">Number of Seasons: </span>{' '}
                             {name.number_of_seasons}
                         </div>
                         <ul>{mkSeasons()}</ul>
-                        <br />
                         <div>
                             <span className="heading">Average Duration: </span>{' '}
                             {name.runtime} mins

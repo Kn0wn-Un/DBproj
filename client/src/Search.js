@@ -40,7 +40,8 @@ function Search() {
                 </div>
             );
         });
-        return arr;
+        if (arr.length > 0) return arr;
+        else return 'No results found';
     };
     const dispMovies = () => {
         const arr = movies.map((movie) => {
@@ -50,19 +51,23 @@ function Search() {
                 </div>
             );
         });
-        return arr;
+        if (arr.length > 0) return arr;
+        else return 'No results found';
     };
     return (
-        <div className="App">
+        <div>
             <form onSubmit={getSearch}>
                 <input
+                    className="searchbox"
                     type="text"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                     }}
                 ></input>
-                <button type="submit">Search</button>
+                <button className="srch-btn">
+                    <span className="material-icons">search</span>
+                </button>
             </form>
             <div className="results">
                 {showRes ? (
