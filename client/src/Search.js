@@ -1,6 +1,7 @@
 import './styles.css';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import ShowSearch from './Components/ShowSearch';
+import MovieSearch from './Components/MovieSearch';
 
 function Search() {
     const [search, setSearch] = useState('');
@@ -9,12 +10,19 @@ function Search() {
     const [showRes, setShow] = useState(false);
     useEffect(() => {
         let lastSrch = localStorage.getItem('shows');
-        if (lastSrch) setShows(JSON.parse(lastSrch));
+        if (lastSrch) {
+            setShows(JSON.parse(lastSrch));
+            setShow(true);
+        }
         lastSrch = localStorage.getItem('movies');
-        if (lastSrch) setMovies(JSON.parse(lastSrch));
+        if (lastSrch) {
+            setMovies(JSON.parse(lastSrch));
+            setShow(true);
+        }
     }, []);
     useEffect(() => {
         if (shows.length > 0) setShow(true);
+        localStorage.clear();
         localStorage.setItem('shows', JSON.stringify(shows));
         localStorage.setItem('movies', JSON.stringify(movies));
     }, [shows, movies]);
@@ -31,28 +39,6 @@ function Search() {
             .then((data) => {
                 setMovies(data);
             });
-    };
-    const dispShows = () => {
-        const arr = shows.map((show) => {
-            return (
-                <div key={show.id}>
-                    <Link to={`/shows/${show.id}`}>{show.name}</Link>
-                </div>
-            );
-        });
-        if (arr.length > 0) return arr;
-        else return 'No results found';
-    };
-    const dispMovies = () => {
-        const arr = movies.map((movie) => {
-            return (
-                <div key={movie.id}>
-                    <Link to={`/movies/${movie.id}`}>{movie.name}</Link>
-                </div>
-            );
-        });
-        if (arr.length > 0) return arr;
-        else return 'No results found';
     };
     return (
         <div>
@@ -73,14 +59,14 @@ function Search() {
                 {showRes ? (
                     <div>
                         <div className="shows">
-                            <div>Shows:</div> {dispShows()}
+                            <h2>Shows:</h2> {<ShowSearch shows={shows} />}
                         </div>
                         <div className="movies">
-                            <div>Movies:</div> {dispMovies()}
+                            <h2>Movies:</h2> <MovieSearch movies={movies} />
                         </div>
                     </div>
                 ) : (
-                    'No results found..'
+                    'Search for something..'
                 )}
             </div>
         </div>

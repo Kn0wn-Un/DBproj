@@ -2,6 +2,7 @@ body {
     margin: 0px;
     min-height: 100%;
     background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
 }
 a,
 a:after {
@@ -99,4 +100,30 @@ ol {
 .srch-btn:hover {
     transform: scale(1.1);
     border: 2px solid red;
+}
+.disp-search {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    height: 400px;
+}
+.shelf {
+    padding: 5px;
+    padding-bottom: 0px;
+    min-width: 150px;
+    max-width: 150px;
+    flex-grow: 1;
+}
+.poster-small {
+    background-color: red;
+    height: 225px;
+    width: 90%;
+}
+.nores {
+    display: flex;
+    background-color: rgb(80, 135, 255);
+    height: 150px;
+    font-size: 21px;
+    align-items: center;
+    justify-content: center;
 }

@@ -89,7 +89,7 @@ app.get('/api/search/shows', (req, res) => {
         database: 'tracker',
     });
     connection.query(
-        'SELECT * FROM `shows` WHERE `name` LIKE ?',
+        'SELECT * FROM `shows` WHERE `name` LIKE ? ORDER BY id DESC LIMIT 50',
         name,
         function (err, results) {
             if (err) throw err;
@@ -114,7 +114,7 @@ app.get('/api/search/movies', (req, res) => {
         database: 'tracker',
     });
     connection.query(
-        'SELECT * FROM `movies` WHERE `name` LIKE ?',
+        'SELECT * FROM `movies` WHERE `name` LIKE ? ORDER BY year DESC LIMIT 50',
         name,
         function (err, results) {
             if (err) throw err;

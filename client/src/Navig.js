@@ -7,11 +7,6 @@ function Navig() {
         <div className="navigation">
             <h1>ShowFlix</h1>
             <div className="nav-link">
-                <Link className="nav-div" to="/">
-                    Example
-                </Link>
-            </div>
-            <div className="nav-link">
                 <Link className="nav-div" to="/search">
                     Search
                 </Link>
