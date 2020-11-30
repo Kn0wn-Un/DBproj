@@ -21,7 +21,7 @@ function ShowDetail({ match }) {
                 <img alt={name.name} src={name.poster_image}></img>
                 <div className="holder">
                     <div className="details">
-                        <h2 className="name">{name.name}</h2>
+                        <h1 className="name">{name.name}</h1>
                         <div>
                             <span className="heading">Network: </span>
                             {name.network}

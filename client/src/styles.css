@@ -1,8 +1,9 @@
 body {
     margin: 0px;
     min-height: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(22, 26, 29);
     overflow-x: hidden;
+    color: rgb(245, 243, 244);
 }
 a,
 a:after {
@@ -12,9 +13,10 @@ a:after {
 .navigation {
     min-width: 100%;
     padding: 10px;
-    background-color: rgb(255, 80, 80);
+    background-color: rgb(164, 22, 26);
     display: flex;
     flex-direction: row;
+    color: black;
 }
 .nav-link {
     align-self: center;
@@ -32,13 +34,16 @@ a:after {
 h1 {
     margin: 15px 0px;
 }
+h2 {
+    margin-left: 2vw;
+}
 .App {
     text-align: center;
 }
 img {
     height: 50vh;
     width: 20vw;
-    border: 2px solid black;
+    border: 2px solid rgb(154, 3, 30);
     box-shadow: 0px 0px 25px black;
 }
 .show-details {
@@ -55,7 +60,7 @@ img {
     padding: 10px 20px;
     text-align: start;
     min-height: 25vh;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgb(164, 22, 26);
 }
 .show-form {
     min-height: 25vh;
@@ -67,9 +72,17 @@ ol {
 }
 .heading {
     font-weight: bold;
+    color: rgb(237, 242, 244);
 }
 .details div {
     margin-top: 10px;
+    color: black;
+}
+.details h1 {
+    color: black;
+}
+.details ul {
+    color: black;
 }
 .limit {
     max-width: 50vw;
@@ -83,29 +96,30 @@ ol {
     margin: 5vh 0px 5vh 10vw;
     min-height: 33px;
     min-width: 275px;
+    font-size: 21px;
 }
-
 .searchbox:focus {
     outline: none;
-    border-color: red;
+    border-color: rgb(214, 40, 57);
 }
 .srch-btn {
     background-color: #eee;
     border: none;
     min-height: 35px;
     position: relative;
-    top: 6px;
+    top: 2px;
     left: -40px;
 }
 .srch-btn:hover {
     transform: scale(1.1);
-    border: 2px solid red;
+    border: 2px solid rgb(214, 40, 57);
 }
 .disp-search {
     display: flex;
     flex-direction: row;
     overflow: auto;
     height: 400px;
+    margin-left: 2vw;
 }
 .shelf {
     padding: 5px;
@@ -114,6 +128,9 @@ ol {
     max-width: 150px;
     flex-grow: 1;
 }
+.shelf div {
+    color: rgb(245, 243, 244);
+}
 .poster-small {
     background-color: red;
     height: 225px;
@@ -121,7 +138,8 @@ ol {
 }
 .nores {
     display: flex;
-    background-color: rgb(80, 135, 255);
+    background-color: rgb(154, 3, 30);
+    color: black;
     height: 150px;
     font-size: 21px;
     align-items: center;

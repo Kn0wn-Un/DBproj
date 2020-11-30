@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 function Navig() {
     return (
         <div className="navigation">
-            <h1>ShowFlix</h1>
+            <Link to="/">
+                <h1>ShowFlix</h1>
+            </Link>
             <div className="nav-link">
                 <Link className="nav-div" to="/search">
                     Search
