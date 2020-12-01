@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 function Navig() {
     return (
         <div className="navigation">
-            <Link to="/">
+            <Link className="unstyle" to="/">
                 <h1>ShowFlix</h1>
             </Link>
             <div className="nav-link">
-                <Link className="nav-div" to="/search">
+                <Link className="unstyle nav-div" to="/search">
                     Search
                 </Link>
             </div>
             <div className="nav-link">
-                <Link className="nav-div" to="/about">
+                <Link className="unstyle nav-div" to="/about">
                     User
                 </Link>
             </div>

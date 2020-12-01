@@ -46,6 +46,7 @@ function Search() {
                 <input
                     className="searchbox"
                     type="text"
+                    placeholder="Batman"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);

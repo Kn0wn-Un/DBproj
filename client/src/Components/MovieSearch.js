@@ -5,7 +5,7 @@ function MovieSearch(props) {
     const arr = props.movies.map((movie) => {
         return (
             <div key={movie.id} className="shelf">
-                <Link to={`/movies/${movie.id}`}>
+                <Link className="unstyle" to={`/movies/${movie.id}`}>
                     <img
                         alt={movie.name}
                         className="poster-small"

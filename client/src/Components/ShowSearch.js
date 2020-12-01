@@ -6,7 +6,7 @@ function ShowSearch(props) {
     const arr = props.shows.map((show, index) => {
         return (
             <div key={show.id} className="shelf">
-                <Link to={`/shows/${show.id}`}>
+                <Link className="unstyle" to={`/shows/${show.id}`}>
                     <img
                         alt={show.name}
                         src={show.poster_image}
