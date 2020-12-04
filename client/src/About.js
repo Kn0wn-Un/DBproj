@@ -38,7 +38,7 @@ function About(props) {
         <div>
             {loggedIn ? (
                 <div>
-                    <button className="btn btn-primary logout" onClick={logOut}>
+                    <button className="btn btn-info logout" onClick={logOut}>
                         Logout
                     </button>
                     <UserSummary />

@@ -2,6 +2,8 @@ const express = require('express');
 //to get the client
 const path = require('path');
 const mysql = require('mysql2');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 
 const app = express();
 
@@ -47,29 +49,6 @@ app.get('/api/movies', (req, res) => {
             if (err) throw err;
             console.log('sent movie details');
             res.json(results[0]);
-        }
-    );
-    connection.end((err) => {
-        if (err) throw err;
-    });
-    console.log('teminated connection...');
-});
-
-app.get('/api/search', (req, res) => {
-    // create the connection to database
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'unknown',
-        password: 'toor',
-        database: 'tracker',
-    });
-    connection.query(
-        'SELECT * FROM `shows` WHERE `id` <= ?',
-        5,
-        function (err, results) {
-            if (err) throw err;
-            console.log('sent details');
-            res.json(results);
         }
     );
     connection.end((err) => {
@@ -126,6 +105,85 @@ app.get('/api/search/movies', (req, res) => {
         if (err) throw err;
     });
     console.log('teminated connection...');
+});
+
+app.get('/api/users/add', (req, res) => {
+    let { name } = req.query;
+    let { pass } = req.query;
+    const enPass = cryptr.encrypt(pass);
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM users WHERE user_name = ?;',
+        name,
+        function (err, results) {
+            if (err) throw err;
+            if (results.length > 0) {
+                console.log('user already exists');
+                res.json('err');
+                return;
+            } else
+                connection.query(
+                    'INSERT INTO users (user_name, password) VALUES (? , ?);',
+                    [name, enPass],
+                    function (err) {
+                        if (err) throw err;
+                        console.log('added user :)');
+                        res.json(true);
+                    }
+                );
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+    //res.json('added user :)');
+});
+
+app.get('/api/users/login', (req, res) => {
+    let { name } = req.query;
+    let { pass } = req.query;
+    const enPass = cryptr.encrypt(pass);
+
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM users WHERE user_name = ?;',
+        name,
+        function (err, results) {
+            if (err) throw err;
+            if (results.length === 0) {
+                console.log('user does not exists');
+                res.json(false);
+                return;
+            } else {
+                const dePass = cryptr.decrypt(results[0].password);
+                if (pass === dePass) {
+                    console.log('Password is correct!');
+                    res.json(true);
+                    return;
+                } else {
+                    console.log('Password is Incorrect, not authenticated');
+                    res.json(false);
+                }
+            }
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+    //res.json('added user :)');
 });
 
 app.get('*', (req, res) => {

@@ -5,6 +5,7 @@ import ShowDetail from './ShowDetail';
 import MovieDetail from './MovieDetail';
 import Navig from './Navig';
 import Search from './Search';
+import SignUp from './SignUp';
 
 const Routes = () => {
     const [isAuth, setAuth] = useState(false);
@@ -21,6 +22,7 @@ const Routes = () => {
                 />
                 <Route path="/shows/:id" component={ShowDetail} />
                 <Route path="/movies/:id" component={MovieDetail} />
+                <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/search" component={Search} />
             </Switch>
         </BrowserRouter>
