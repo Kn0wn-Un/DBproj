@@ -179,3 +179,16 @@ ol {
     position: relative;
     top: -60px;
 }
+.user-form {
+    margin-left: 40vw;
+    margin-top: 15vh;
+    height: 500px;
+    width: 500px;
+    padding: 25px;
+}
+.err {
+    width: fit-content;
+}
+label {
+    font-size: 21px;
+}
