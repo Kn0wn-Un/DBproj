@@ -1,7 +1,7 @@
 import './styles.css';
 import { useState, useEffect } from 'react';
 import FormIcons from './Components/FormIcons';
-function ShowForm(props) {
+function MovieForm(props) {
     const [watched, setWatched] = useState(false);
     const [later, setLater] = useState(false);
     const [added, setAdd] = useState(false);
@@ -22,7 +22,7 @@ function ShowForm(props) {
     };
     const getReview = async () => {
         await fetch(
-            `/api/watched/shows?userId=${props.user}&showId=${props.show.id}`
+            `/api/watched/movies?userId=${props.user}&movieId=${props.movie.id}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -36,13 +36,13 @@ function ShowForm(props) {
     };
     const addShowWatched = async () => {
         await fetch(
-            `/api/add/shows?userId=${props.user}&showId=${props.show.id}&rating=${rating}&review=${review}`
+            `/api/add/movies?userId=${props.user}&movieId=${props.movie.id}&rating=${rating}&review=${review}`
         );
     };
     const formHandler = (e) => {
         e.preventDefault();
         console.log(rating);
-        console.log(props.show.id);
+        console.log(props.movie.id);
         addShowWatched();
         getReview();
         setAdd(true);
@@ -105,4 +105,4 @@ function ShowForm(props) {
     );
 }
 
-export default ShowForm;
+export default MovieForm;

@@ -1,7 +1,8 @@
 import './styles.css';
 import { useEffect, useState } from 'react';
+import MovieForm from './MovieForm';
 
-function MovieDetail({ match }) {
+function MovieDetail({ match, isAuth, user }) {
     const [movie, setmovie] = useState({});
     const [gotData, setGot] = useState(false);
     const [poster, setPoster] = useState('');
@@ -52,7 +53,11 @@ function MovieDetail({ match }) {
                             {movie.description}
                         </div>
                     </div>
-                    <div className="show-form">Collect details</div>
+                    {isAuth ? (
+                        <div className="show-form">
+                            <MovieForm movie={movie} user={user} />
+                        </div>
+                    ) : null}
                 </div>
             </div>
         );

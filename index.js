@@ -207,6 +207,75 @@ app.get('/api/add/shows', (req, res) => {
     console.log('teminated connection...');
 });
 
+app.get('/api/watched/shows', (req, res) => {
+    let { userId, showId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT ratings, review FROM S_WATCHED WHERE user_id = ? AND show_id = ?',
+        [userId, showId],
+        function (err, results) {
+            if (err) throw err;
+            res.json(results);
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/add/movies', (req, res) => {
+    let { userId, movieId, rating, review } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'INSERT INTO M_WATCHED VALUES(?, ?, ?, ?)',
+        [userId, movieId, rating, review],
+        function (err) {
+            if (err) throw err;
+            console.log('added movie to watched');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watched/movies', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT ratings, review FROM M_WATCHED WHERE user_id = ? AND movie_id = ?',
+        [userId, movieId],
+        function (err, results) {
+            if (err) throw err;
+            res.json(results);
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });

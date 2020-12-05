@@ -32,7 +32,12 @@ const Routes = () => {
                         <ShowDetail isAuth={isAuth} user={user} {...props} />
                     )}
                 />
-                <Route path="/movies/:id" component={MovieDetail} />
+                <Route
+                    path="/movies/:id"
+                    render={(props) => (
+                        <MovieDetail isAuth={isAuth} user={user} {...props} />
+                    )}
+                />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/search" component={Search} />
             </Switch>
