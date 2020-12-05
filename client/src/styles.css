@@ -192,3 +192,11 @@ ol {
 label {
     font-size: 21px;
 }
+.form-icons {
+    display: flex;
+    flex-direction: row;
+    margin: 25px 25px 0px 0px;
+}
+.watched-form {
+    float: left;
+}

@@ -142,7 +142,6 @@ app.get('/api/users/add', (req, res) => {
         if (err) throw err;
     });
     console.log('teminated connection...');
-    //res.json('added user :)');
 });
 
 app.get('/api/users/login', (req, res) => {
@@ -170,7 +169,7 @@ app.get('/api/users/login', (req, res) => {
                 const dePass = cryptr.decrypt(results[0].password);
                 if (pass === dePass) {
                     console.log('Password is correct!');
-                    res.json(true);
+                    res.json(results[0].user_id);
                     return;
                 } else {
                     console.log('Password is Incorrect, not authenticated');
@@ -183,7 +182,29 @@ app.get('/api/users/login', (req, res) => {
         if (err) throw err;
     });
     console.log('teminated connection...');
-    //res.json('added user :)');
+});
+
+app.get('/api/add/shows', (req, res) => {
+    let { userId, showId, rating, review } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'INSERT INTO S_WATCHED VALUES(?, ?, ?, ?)',
+        [userId, showId, rating, review],
+        function (err) {
+            if (err) throw err;
+            console.log('added show to watched');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
 });
 
 app.get('*', (req, res) => {

@@ -1,7 +1,8 @@
 import './styles.css';
 import { useEffect, useState } from 'react';
+import ShowForm from './ShowForm';
 
-function ShowDetail({ match }) {
+function ShowDetail({ match, isAuth, user }) {
     const [name, setName] = useState({});
     const [gotData, setGot] = useState(false);
     const mkSeasons = () => {
@@ -36,7 +37,11 @@ function ShowDetail({ match }) {
                             {name.runtime} mins
                         </div>
                     </div>
-                    <div className="show-form">Collect details</div>
+                    {isAuth ? (
+                        <div className="show-form">
+                            <ShowForm show={name} user={user} />
+                        </div>
+                    ) : null}
                 </div>
             </div>
         );
@@ -44,6 +49,7 @@ function ShowDetail({ match }) {
     useEffect(() => {
         console.log('Hello World Show Detail');
         console.log(match.params.id);
+        console.log(user);
         fetch(`/api/shows?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {

@@ -9,6 +9,7 @@ import SignUp from './SignUp';
 
 const Routes = () => {
     const [isAuth, setAuth] = useState(false);
+    const [user, setUser] = useState(-1);
     return (
         <BrowserRouter>
             <Navig />
@@ -17,10 +18,20 @@ const Routes = () => {
                 <Route
                     path="/about"
                     render={(props) => (
-                        <About isAuth={isAuth} handler={setAuth} {...props} />
+                        <About
+                            isAuth={isAuth}
+                            handler={setAuth}
+                            setUser={setUser}
+                            {...props}
+                        />
                     )}
                 />
-                <Route path="/shows/:id" component={ShowDetail} />
+                <Route
+                    path="/shows/:id"
+                    render={(props) => (
+                        <ShowDetail isAuth={isAuth} user={user} {...props} />
+                    )}
+                />
                 <Route path="/movies/:id" component={MovieDetail} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/search" component={Search} />
