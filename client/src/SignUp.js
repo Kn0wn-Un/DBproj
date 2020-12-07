@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SignUp() {
+function SignUp(props) {
     const [name, setName] = useState('');
     const [pass, setPass] = useState('');
     const [showPass, setShow] = useState(false);
@@ -11,7 +11,10 @@ function SignUp() {
             .then((data) => {
                 if (data === 'err')
                     alert('User already exists cannot create new user');
-                else console.log(data);
+                else {
+                    alert('account created! You can now login');
+                    props.history.push('/about');
+                }
             });
     };
 

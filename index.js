@@ -136,11 +136,11 @@ app.get('/api/users/add', (req, res) => {
                         res.json(true);
                     }
                 );
+            connection.end((err) => {
+                if (err) throw err;
+            });
         }
     );
-    connection.end((err) => {
-        if (err) throw err;
-    });
     console.log('teminated connection...');
 });
 
@@ -176,6 +176,30 @@ app.get('/api/users/login', (req, res) => {
                     res.json(false);
                 }
             }
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/users/delete', (req, res) => {
+    let { userId } = req.query;
+
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'DELETE FROM users WHERE user_id = ?;',
+        userId,
+        function (err) {
+            if (err) throw err;
+            res.json(true);
         }
     );
     connection.end((err) => {

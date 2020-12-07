@@ -176,9 +176,14 @@ ol {
     flex-direction: row;
 }
 .logout {
-    margin-left: 90vw;
+    margin-left: 75vw;
     position: relative;
     top: -60px;
+}
+.delete {
+    margin-left: 85vw;
+    position: relative;
+    top: -97px;
 }
 .user-form {
     margin-left: 40vw;

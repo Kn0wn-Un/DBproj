@@ -20,6 +20,13 @@ function About(props) {
         setLogin(false);
         props.handler(false);
     };
+    const deleteAcc = async () => {
+        await fetch(`/api/users/delete?userId=${props.user}`)
+            .then((res) => res.json())
+            .then((isDel) => {
+                if (isDel) logOut();
+            });
+    };
     const getData = async () => {
         await fetch(`/api/users?userId=${props.user}`)
             .then((res) => res.json())
@@ -27,34 +34,25 @@ function About(props) {
                 setData(info);
             });
     };
-    const data1 = {
-        movie: [
-            { name: 'Movie1' },
-            { name: 'Movie2' },
-            { name: 'Movie3' },
-            { name: 'Movie4' },
-            { name: 'Movie5' },
-        ],
-        show: [
-            { name: 'show1' },
-            { name: 'show2' },
-            { name: 'show3' },
-            { name: 'show4' },
-        ],
-        watchLater: [
-            { name: 'Watch Later' },
-            { name: 'Watch Later' },
-            { name: 'Watch Later' },
-            { name: 'Watch Later' },
-        ],
-    };
     return (
         <div>
             {loggedIn ? (
                 <div>
-                    <button className="btn btn-primary logout" onClick={logOut}>
-                        Logout
-                    </button>
+                    <div>
+                        <button
+                            className="btn btn-primary logout"
+                            onClick={logOut}
+                        >
+                            Logout
+                        </button>
+                        <button
+                            className="btn btn-primary delete"
+                            onClick={deleteAcc}
+                        >
+                            Delete
+                        </button>
+                    </div>
+
                     {data.length !== 0 ? (
                         <UserSummary data={data} />
                     ) : (
