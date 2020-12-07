@@ -15,7 +15,7 @@ function Navig() {
             </div>
             <div className="nav-link">
                 <Link className="unstyle nav-div" to="/about">
-                    User
+                    Account
                 </Link>
             </div>
         </div>

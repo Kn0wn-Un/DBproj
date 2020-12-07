@@ -292,13 +292,31 @@ app.get('/api/users', (req, res) => {
         function (err, results) {
             if (err) throw err;
             data = { ...results[0] };
-            console.log('sent user data');
-            res.json(data);
+            connection.query(
+                'SELECT m.id, m.name, w.ratings FROM movies m, M_WATCHED w WHERE m.id = w.movie_id AND w.user_id = ?; ',
+                userId,
+                function (err, results) {
+                    if (err) throw err;
+                    data.movies = [...results];
+                    console.log('got movie data');
+                    connection.query(
+                        'SELECT s.id, s.name, w.ratings FROM shows s, S_WATCHED w WHERE s.id = w.show_id AND w.user_id = ?; ',
+                        userId,
+                        function (err, results) {
+                            if (err) throw err;
+                            data.shows = [...results];
+                            console.log('got show data');
+                            res.json(data);
+                        }
+                    );
+                    console.log('sent user data');
+                    connection.end((err) => {
+                        if (err) throw err;
+                    });
+                }
+            );
         }
     );
-    connection.end((err) => {
-        if (err) throw err;
-    });
     console.log('teminated connection...');
 });
 

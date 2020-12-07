@@ -4,12 +4,15 @@ import UserTable from './Components/UserTable';
 import Login from './Login';
 import { useEffect, useState } from 'react';
 function About(props) {
-    const [toShow, setShow] = useState('show');
+    const [toShow, setShow] = useState('shows');
     const [loggedIn, setLogin] = useState(false);
     const [data, setData] = useState([]);
     useEffect(() => {
         setLogin(props.isAuth);
     }, [props.isAuth]);
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
     useEffect(() => {
         if (loggedIn) getData();
     }, [loggedIn]);
@@ -62,7 +65,7 @@ function About(props) {
                             <div
                                 className="select"
                                 onClick={() => {
-                                    setShow('show');
+                                    setShow('shows');
                                 }}
                             >
                                 Shows
@@ -70,7 +73,7 @@ function About(props) {
                             <div
                                 className="select"
                                 onClick={() => {
-                                    setShow('movie');
+                                    setShow('movies');
                                 }}
                             >
                                 Movies
@@ -78,14 +81,18 @@ function About(props) {
                             <div
                                 className="select"
                                 onClick={() => {
-                                    setShow('watchLater');
+                                    setShow('movies');
                                 }}
                             >
                                 Watch Later
                             </div>
                         </div>
                     </div>
-                    <UserTable data={data1[toShow]} />
+                    {data.length !== 0 ? (
+                        <UserTable list={data} show={toShow} />
+                    ) : (
+                        <div>Loading..</div>
+                    )}
                 </div>
             ) : (
                 <div>

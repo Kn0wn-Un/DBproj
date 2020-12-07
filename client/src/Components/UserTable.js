@@ -1,17 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 function UserTable(props) {
+    console.log(props.list);
     const mkArr = () => {
-        const arr = props.data.map((item, index) => {
+        const arr = props.list[props.show].map((item, index) => {
             return (
-                <tr key={index}>
-                    <th scope="row">{index}</th>
+                <tr key={item.id}>
+                    <th scope="row">{index + 1}</th>
                     <td>
-                        <Link className="unstyle text-white" to="/shows/10">
+                        <Link
+                            className="unstyle text-white"
+                            to={
+                                props.show === 'shows'
+                                    ? `/shows/${item.id}`
+                                    : `/movies/${item.id}`
+                            }
+                        >
                             {item.name}
                         </Link>
                     </td>
-                    <td>9</td>
+                    <td>{item.ratings}</td>
                 </tr>
             );
         });

@@ -51,7 +51,7 @@ function MovieForm(props) {
         <div>
             {added ? (
                 <div>
-                    <h2>You have watched this show!</h2>
+                    <h2>You have watched this movie!</h2>
                     <div>Your Rating: {rating}</div>
                     <div>Your Review: {review}</div>
                 </div>

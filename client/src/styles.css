@@ -135,7 +135,7 @@ ol {
 .poster-small {
     background-color: red;
     height: 225px;
-    width: 90%;
+    width: 95%;
 }
 .nores {
     display: flex;
@@ -164,6 +164,7 @@ ol {
     border-bottom: none;
     padding: 5px 25px 0px 25px;
     align-self: center;
+    cursor: pointer;
 }
 .select:hover {
     background-color: gray;
