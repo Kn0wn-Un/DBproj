@@ -6,14 +6,25 @@ import { useEffect, useState } from 'react';
 function About(props) {
     const [toShow, setShow] = useState('show');
     const [loggedIn, setLogin] = useState(false);
+    const [data, setData] = useState([]);
     useEffect(() => {
         setLogin(props.isAuth);
     }, [props.isAuth]);
+    useEffect(() => {
+        if (loggedIn) getData();
+    }, [loggedIn]);
     const logOut = () => {
         setLogin(false);
         props.handler(false);
     };
-    const data = {
+    const getData = async () => {
+        await fetch(`/api/users?userId=${props.user}`)
+            .then((res) => res.json())
+            .then((info) => {
+                setData(info);
+            });
+    };
+    const data1 = {
         movie: [
             { name: 'Movie1' },
             { name: 'Movie2' },
@@ -41,7 +52,11 @@ function About(props) {
                     <button className="btn btn-primary logout" onClick={logOut}>
                         Logout
                     </button>
-                    <UserSummary />
+                    {data.length !== 0 ? (
+                        <UserSummary data={data} />
+                    ) : (
+                        <div>Loading..</div>
+                    )}
                     <div className="user-nav">
                         <div className="nav-head bg-dark">
                             <div
@@ -70,7 +85,7 @@ function About(props) {
                             </div>
                         </div>
                     </div>
-                    <UserTable data={data[toShow]} />
+                    <UserTable data={data1[toShow]} />
                 </div>
             ) : (
                 <div>

@@ -276,6 +276,32 @@ app.get('/api/watched/movies', (req, res) => {
     console.log('teminated connection...');
 });
 
+app.get('/api/users', (req, res) => {
+    let { userId } = req.query;
+    let data = {};
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM users WHERE user_id = ?',
+        userId,
+        function (err, results) {
+            if (err) throw err;
+            data = { ...results[0] };
+            console.log('sent user data');
+            res.json(data);
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });

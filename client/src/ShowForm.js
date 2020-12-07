@@ -75,6 +75,7 @@ function ShowForm(props) {
                                     min="1"
                                     max="5"
                                     value={rating}
+                                    required
                                     onChange={(e) => {
                                         setRating(e.target.value);
                                     }}
@@ -87,6 +88,7 @@ function ShowForm(props) {
                                 <textarea
                                     maxLength="255"
                                     value={review}
+                                    required
                                     onChange={(e) => {
                                         setReview(e.target.value);
                                     }}

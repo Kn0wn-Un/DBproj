@@ -20,6 +20,7 @@ const Routes = () => {
                     render={(props) => (
                         <About
                             isAuth={isAuth}
+                            user={user}
                             handler={setAuth}
                             setUser={setUser}
                             {...props}

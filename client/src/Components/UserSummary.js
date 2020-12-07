@@ -1,23 +1,27 @@
 import React from 'react';
 
-function UserSummary() {
+function UserSummary(props) {
     return (
         <div className="user-summary">
             <div>
-                <h2>100</h2>
+                <h2>{props.data.shows_count}</h2>
                 <div>Shows Watched</div>
             </div>
             <div>
-                <h2>10000</h2>
-                <div>Total episodes watched</div>
+                <h2>{props.data.total_seasons}</h2>
+                <div>Total seasons watched</div>
             </div>
-            <h1>Name</h1>
+            <h1>{props.data.user_name}</h1>
             <div>
-                <h2>10</h2>
-                <div>Total movies watched</div>
+                <h2>{props.data.movies_count}</h2>
+                <div>Movies watched</div>
             </div>
             <div>
-                <h2>1200</h2>
+                <h2>
+                    {Math.round(
+                        (props.data.movie_hours / 60 + Number.EPSILON) * 100
+                    ) / 100}
+                </h2>
                 <div>Hours of movies watched</div>
             </div>
         </div>
