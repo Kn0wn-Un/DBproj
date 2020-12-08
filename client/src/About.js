@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './styles.css';
 import UserSummary from './Components/UserSummary';
 import UserTable from './Components/UserTable';

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './styles.css';
 import { useEffect, useState } from 'react';
 import MovieForm from './MovieForm';

@@ -166,6 +166,11 @@ ol {
     align-self: center;
     cursor: pointer;
 }
+.select-active {
+    background-color: gray;
+    transform: scale(1.1);
+    border-left: 2px solid black;
+}
 .select:hover {
     background-color: gray;
     transform: scale(1.1);

@@ -483,28 +483,48 @@ app.get('/api/users', (req, res) => {
                 'SELECT m.id, m.name, w.ratings FROM movies m, M_WATCHED w WHERE m.id = w.movie_id AND w.user_id = ?; ',
                 userId,
                 function (err, results) {
-                    if (err) throw err;
+                    if (err) {
+                        connection.end((err) => {
+                            if (err) throw err;
+                        });
+                        throw err;
+                    }
                     data.movies = [...results];
                     console.log('got movie data');
                     connection.query(
                         'SELECT s.id, s.name, w.ratings FROM shows s, S_WATCHED w WHERE s.id = w.show_id AND w.user_id = ?; ',
                         userId,
                         function (err, results) {
-                            if (err) throw err;
+                            if (err) {
+                                connection.end((err) => {
+                                    if (err) throw err;
+                                });
+                                throw err;
+                            }
                             data.shows = [...results];
                             console.log('got show data');
                             connection.query(
                                 'SELECT m.id, m.name FROM movies m, WATCHLATER_M w WHERE m.id = w.movie_id AND w.user_id = ?; ',
                                 userId,
                                 function (err, results) {
-                                    if (err) throw err;
+                                    if (err) {
+                                        connection.end((err) => {
+                                            if (err) throw err;
+                                        });
+                                        throw err;
+                                    }
                                     data.wlMovies = [...results];
                                     console.log('got watchlater movies');
                                     connection.query(
                                         'SELECT s.id, s.name FROM shows s, WATCHLATER_S w WHERE s.id = w.show_id AND w.user_id = ?; ',
                                         userId,
                                         function (err, results) {
-                                            if (err) throw err;
+                                            if (err) {
+                                                connection.end((err) => {
+                                                    if (err) throw err;
+                                                });
+                                                throw err;
+                                            }
                                             data.wlShows = [...results];
                                             console.log('got watchlater shows');
                                             res.json(data);

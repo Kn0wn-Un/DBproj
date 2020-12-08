@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './styles.css';
 import { useState, useEffect } from 'react';
 import FormIcons from './Components/FormIcons';

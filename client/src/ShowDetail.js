@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './styles.css';
 import { useEffect, useState } from 'react';
 import ShowForm from './ShowForm';
@@ -6,6 +7,7 @@ function ShowDetail({ match, isAuth, user }) {
     const [name, setName] = useState({});
     const [gotData, setGot] = useState(false);
     const mkSeasons = () => {
+        // eslint-disable-next-line no-eval
         const sArr = eval(name.seasons).map((season, index) => {
             return (
                 <li key={index}>
