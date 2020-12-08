@@ -33,10 +33,28 @@ function ShowForm(props) {
                 setRating(ratings);
                 setReview(review);
             });
+        await fetch(
+            `/api/watchlater/shows?userId=${props.user}&showId=${props.show.id}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.length === 0) return;
+                setLater(true);
+            });
     };
     const addShowWatched = async () => {
         await fetch(
             `/api/add/shows?userId=${props.user}&showId=${props.show.id}&rating=${rating}&review=${review}`
+        );
+    };
+    const addWatchLater = async () => {
+        await fetch(
+            `/api/watchlater/shows/add?userId=${props.user}&showId=${props.show.id}`
+        );
+    };
+    const remWatchLater = async () => {
+        await fetch(
+            `/api/watchlater/shows/remove?userId=${props.user}&showId=${props.show.id}`
         );
     };
     const formHandler = (e) => {
@@ -62,6 +80,8 @@ function ShowForm(props) {
                         watchHandler={watchHandler}
                         later={later}
                         laterHandler={laterHandler}
+                        watchLater={addWatchLater}
+                        remLater={remWatchLater}
                     />
                     <div className="watched-form">
                         {watched ? (

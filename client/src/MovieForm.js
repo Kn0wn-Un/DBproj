@@ -33,10 +33,33 @@ function MovieForm(props) {
                 setRating(ratings);
                 setReview(review);
             });
+        await fetch(
+            `/api/watchlater/movies?userId=${props.user}&movieId=${props.movie.id}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.length === 0) return;
+                setLater(true);
+            });
     };
     const addShowWatched = async () => {
         await fetch(
             `/api/add/movies?userId=${props.user}&movieId=${props.movie.id}&rating=${rating}&review=${review}`
+        );
+    };
+    //const remShowWatched = async () => {
+    //    await fetch(
+    //        `/api/remove/movies?userId=${props.user}&movieId=${props.movie.id}`
+    //    );
+    //};
+    const addWatchLater = async () => {
+        await fetch(
+            `/api/watchlater/movies/add?userId=${props.user}&movieId=${props.movie.id}`
+        );
+    };
+    const remWatchLater = async () => {
+        await fetch(
+            `/api/watchlater/movies/remove?userId=${props.user}&movieId=${props.movie.id}`
         );
     };
     const formHandler = (e) => {
@@ -62,6 +85,8 @@ function MovieForm(props) {
                         watchHandler={watchHandler}
                         later={later}
                         laterHandler={laterHandler}
+                        watchLater={addWatchLater}
+                        remLater={remWatchLater}
                     />
                     <div className="watched-form">
                         {watched ? (

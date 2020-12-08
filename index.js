@@ -277,6 +277,169 @@ app.get('/api/add/movies', (req, res) => {
     console.log('teminated connection...');
 });
 
+app.get('/api/remove/movies', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'DELETE FROM WATCHLATER_M WHERE user_id = ? AND movie_id = ?',
+        [userId, movieId],
+        function (err) {
+            if (err) throw err;
+            console.log('removed movie from watched');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/movies', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM WATCHLATER_M WHERE user_id = ? AND movie_id = ?',
+        [userId, movieId],
+        function (err, results) {
+            if (err) throw err;
+            res.json(results);
+            console.log('sent watch later movies');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/movies/add', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'INSERT INTO WATCHLATER_M VALUES(?, ?)',
+        [userId, movieId],
+        function (err) {
+            if (err) throw err;
+            console.log('added movie to watched later');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/movies/remove', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'DELETE FROM WATCHLATER_M WHERE user_id = ? AND movie_id = ?',
+        [userId, movieId],
+        function (err) {
+            if (err) throw err;
+            console.log('removed movie from watched later');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/shows', (req, res) => {
+    let { userId, showId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'SELECT * FROM WATCHLATER_S WHERE user_id = ? AND show_id = ?',
+        [userId, showId],
+        function (err, results) {
+            if (err) throw err;
+            res.json(results);
+            console.log('sent watch later shows');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/shows/add', (req, res) => {
+    let { userId, showId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'INSERT INTO WATCHLATER_S VALUES(?, ?)',
+        [userId, showId],
+        function (err) {
+            if (err) throw err;
+            console.log('added show to watched later');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
+app.get('/api/watchlater/shows/remove', (req, res) => {
+    let { userId, showId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'DELETE FROM WATCHLATER_S WHERE user_id = ? AND show_id = ?',
+        [userId, showId],
+        function (err) {
+            if (err) throw err;
+            console.log('removed show from watched later');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
 app.get('/api/watched/movies', (req, res) => {
     let { userId, movieId } = req.query;
     //create the connection to database

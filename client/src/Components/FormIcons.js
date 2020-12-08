@@ -56,7 +56,10 @@ function FormIcons(props) {
                             className="bi bi-bookmark-check-fill"
                             fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg"
-                            onClick={props.laterHandler}
+                            onClick={() => {
+                                props.laterHandler();
+                                props.remLater();
+                            }}
                         >
                             <path
                                 fillRule="evenodd"
@@ -74,7 +77,10 @@ function FormIcons(props) {
                             className="bi bi-bookmark-check"
                             fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg"
-                            onClick={props.laterHandler}
+                            onClick={() => {
+                                props.laterHandler();
+                                props.watchLater();
+                            }}
                         >
                             <path
                                 fillRule="evenodd"
