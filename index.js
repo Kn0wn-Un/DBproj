@@ -493,13 +493,31 @@ app.get('/api/users', (req, res) => {
                             if (err) throw err;
                             data.shows = [...results];
                             console.log('got show data');
-                            res.json(data);
+                            connection.query(
+                                'SELECT m.id, m.name FROM movies m, WATCHLATER_M w WHERE m.id = w.movie_id AND w.user_id = ?; ',
+                                userId,
+                                function (err, results) {
+                                    if (err) throw err;
+                                    data.wlMovies = [...results];
+                                    console.log('got watchlater movies');
+                                    connection.query(
+                                        'SELECT s.id, s.name FROM shows s, WATCHLATER_S w WHERE s.id = w.show_id AND w.user_id = ?; ',
+                                        userId,
+                                        function (err, results) {
+                                            if (err) throw err;
+                                            data.wlShows = [...results];
+                                            console.log('got watchlater shows');
+                                            res.json(data);
+                                        }
+                                    );
+                                    console.log('sent user data');
+                                    connection.end((err) => {
+                                        if (err) throw err;
+                                    });
+                                }
+                            );
                         }
                     );
-                    console.log('sent user data');
-                    connection.end((err) => {
-                        if (err) throw err;
-                    });
                 }
             );
         }

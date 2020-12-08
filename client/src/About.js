@@ -79,10 +79,18 @@ function About(props) {
                             <div
                                 className="select"
                                 onClick={() => {
-                                    setShow('movies');
+                                    setShow('wlMovies');
                                 }}
                             >
-                                Watch Later
+                                Watch Later Movies
+                            </div>
+                            <div
+                                className="select"
+                                onClick={() => {
+                                    setShow('wlShows');
+                                }}
+                            >
+                                Watch Later Shows
                             </div>
                         </div>
                     </div>

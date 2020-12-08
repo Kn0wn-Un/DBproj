@@ -11,7 +11,8 @@ function UserTable(props) {
                         <Link
                             className="unstyle text-white"
                             to={
-                                props.show === 'shows'
+                                props.show === 'shows' ||
+                                props.show === 'wlShows'
                                     ? `/shows/${item.id}`
                                     : `/movies/${item.id}`
                             }
@@ -19,7 +20,10 @@ function UserTable(props) {
                             {item.name}
                         </Link>
                     </td>
-                    <td>{item.ratings}</td>
+                    {props.show === 'wlMovies' ||
+                    props.show === 'wlShows' ? null : (
+                        <td>{item.ratings}</td>
+                    )}
                 </tr>
             );
         });
@@ -32,7 +36,10 @@ function UserTable(props) {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Rating</th>
+                        {props.show === 'wlMovies' ||
+                        props.show === 'wlShows' ? null : (
+                            <th scope="col">Rating</th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>{mkArr()}</tbody>
