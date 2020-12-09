@@ -19,9 +19,10 @@
 
 ### Core:
 
-1. JavaScript
-2. CSS
-3. [MySQL](https://www.mysql.com/)
+1. HTML
+2. JavaScript
+3. CSS
+4. [MySQL](https://www.mysql.com/)
 
 ### Backend:
 
