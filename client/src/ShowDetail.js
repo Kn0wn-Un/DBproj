@@ -49,22 +49,13 @@ function ShowDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
-        console.log('Hello World Show Detail');
-        console.log(match.params.id);
-        console.log(user);
         fetch(`/api/shows?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
                 setName(data);
                 setGot(true);
             });
-        return () => {
-            console.log('Unmounted Show Detail');
-        };
     }, []);
-    useEffect(() => {
-        console.log(name);
-    }, [gotData]);
     return (
         <div className="App">
             {gotData ? <ol>{viewShow()}</ol> : 'loading'}{' '}

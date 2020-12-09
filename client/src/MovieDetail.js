@@ -64,20 +64,14 @@ function MovieDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
-        console.log('Hello World from Movie');
-        console.log(match.params.id);
         fetch(`/api/movies?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
                 setmovie(data);
                 setGot(true);
             });
-        return () => {
-            console.log('Unmounted Movie');
-        };
     }, []);
     useEffect(() => {
-        console.log(movie);
         getPoster(movie.imdb_id);
     }, [gotData]);
     return (

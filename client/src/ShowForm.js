@@ -60,8 +60,6 @@ function ShowForm(props) {
     };
     const formHandler = (e) => {
         e.preventDefault();
-        console.log(rating);
-        console.log(props.show.id);
         addShowWatched();
         getReview();
         setAdd(true);

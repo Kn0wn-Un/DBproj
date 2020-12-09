@@ -12,9 +12,6 @@ function About(props) {
         setLogin(props.isAuth);
     }, [props.isAuth]);
     useEffect(() => {
-        console.log(data);
-    }, [data]);
-    useEffect(() => {
         if (loggedIn) getData();
     }, [loggedIn]);
     const logOut = () => {

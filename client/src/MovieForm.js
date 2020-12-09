@@ -65,8 +65,6 @@ function MovieForm(props) {
     };
     const formHandler = (e) => {
         e.preventDefault();
-        console.log(rating);
-        console.log(props.movie.id);
         addShowWatched();
         getReview();
         setAdd(true);

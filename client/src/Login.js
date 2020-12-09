@@ -12,12 +12,9 @@ function Login(props) {
             .then((res) => res.json())
             .then((auth) => {
                 if (auth) {
-                    console.log(auth);
                     props.logged(true);
                     props.setUser(auth);
-                    console.log('user found!');
                 } else {
-                    console.log('user does not exists');
                     setErr(true);
                 }
             });

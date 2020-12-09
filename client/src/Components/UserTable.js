@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 function UserTable(props) {
-    console.log(props.list);
     const mkArr = () => {
         const arr = props.list[props.show].map((item, index) => {
             return (
