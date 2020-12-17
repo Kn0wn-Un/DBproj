@@ -43,6 +43,16 @@ function MovieDetail({ match, isAuth, user }) {
                 console.log(data.results.IN);
                 console.log(data.results.IN.flatrate);
                 let lData = data.results.IN;
+                if (lData.flatrate) {
+                    setOtt(
+                        lData.flatrate.map((provider, index) => {
+                            console.log(data.results.IN.flatrate);
+                            return (
+                                <li key={index}>{provider.provider_name}</li>
+                            );
+                        })
+                    );
+                }
                 if (lData !== undefined) {
                     setWatch(true);
                     setBuy(
@@ -54,13 +64,6 @@ function MovieDetail({ match, isAuth, user }) {
                     );
                     setRent(
                         lData.rent.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
-                            );
-                        })
-                    );
-                    setOtt(
-                        lData.flatrate.map((provider, index) => {
                             return (
                                 <li key={index}>{provider.provider_name}</li>
                             );
@@ -164,9 +167,6 @@ function MovieDetail({ match, isAuth, user }) {
                 getPoster(data.name.replace(' ', '%20'));
             });
     }, []);
-    useEffect(() => {
-        //getPoster(movie.name.replace(' ', '%20'));
-    }, [gotData]);
     return (
         <div className="App">
             {gotData ? <ol>{showMovie()}</ol> : 'loading'}{' '}
