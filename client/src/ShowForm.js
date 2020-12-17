@@ -67,8 +67,8 @@ function ShowForm(props) {
     return (
         <div>
             {added ? (
-                <div>
-                    <h2>You have watched this show!</h2>
+                <div className="watched-review">
+                    <h4>You have watched this show!</h4>
                     <div>Your Rating: {rating}</div>
                     <div>Your Review: {review}</div>
                 </div>

@@ -211,3 +211,10 @@ label {
 .watched-form {
     float: left;
 }
+.trailer {
+    position: relative;
+    margin-top: 25px;
+}
+.watched-review {
+    word-wrap: break-word;
+}

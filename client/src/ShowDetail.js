@@ -21,7 +21,15 @@ function ShowDetail({ match, isAuth, user }) {
     const viewShow = () => {
         return (
             <div className="show-details">
-                <img alt={name.name} src={name.poster_image}></img>
+                <div>
+                    <img alt={name.name} src={name.poster_image}></img>
+                    {isAuth ? (
+                        <div className="show-form">
+                            <ShowForm show={name} user={user} />
+                        </div>
+                    ) : null}
+                </div>
+
                 <div className="holder">
                     <div className="details">
                         <h1 className="name">{name.name}</h1>
@@ -38,12 +46,16 @@ function ShowDetail({ match, isAuth, user }) {
                             <span className="heading">Average Duration: </span>{' '}
                             {name.runtime} mins
                         </div>
-                    </div>
-                    {isAuth ? (
-                        <div className="show-form">
-                            <ShowForm show={name} user={user} />
+                        <div className="trailer">
+                            <h1>Trailer</h1>
+                            <iframe
+                                title={name.name}
+                                width="420"
+                                height="315"
+                                src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                            ></iframe>{' '}
                         </div>
-                    ) : null}
+                    </div>
                 </div>
             </div>
         );

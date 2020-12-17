@@ -18,7 +18,15 @@ function MovieDetail({ match, isAuth, user }) {
     const showMovie = () => {
         return (
             <div className="show-details">
-                <img alt={movie.name} src={poster}></img>
+                <div>
+                    <img alt={movie.name} src={poster}></img>
+                    {isAuth ? (
+                        <div className="show-form">
+                            <MovieForm movie={movie} user={user} />
+                        </div>
+                    ) : null}
+                </div>
+
                 <div className="holder">
                     <div className="details">
                         <h1>{movie.name}</h1>
@@ -53,12 +61,16 @@ function MovieDetail({ match, isAuth, user }) {
                             <span className="heading">Summary:</span>{' '}
                             {movie.description}
                         </div>
-                    </div>
-                    {isAuth ? (
-                        <div className="show-form">
-                            <MovieForm movie={movie} user={user} />
+                        <div className="trailer">
+                            <h1>Trailer</h1>
+                            <iframe
+                                title={movie.name}
+                                width="420"
+                                height="315"
+                                src="https://www.youtube.com/embed/9GVMoxhtrY8"
+                            ></iframe>{' '}
                         </div>
-                    ) : null}
+                    </div>
                 </div>
             </div>
         );

@@ -231,6 +231,29 @@ app.get('/api/add/shows', (req, res) => {
     console.log('teminated connection...');
 });
 
+app.get('/api/remove/shows', (req, res) => {
+    let { userId, movieId } = req.query;
+    //create the connection to database
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'unknown',
+        password: 'toor',
+        database: 'tracker',
+    });
+    connection.query(
+        'DELETE FROM S_WATCHED WHERE user_id = ? AND show_id = ?',
+        [userId, movieId],
+        function (err) {
+            if (err) throw err;
+            console.log('removed movie from watched');
+        }
+    );
+    connection.end((err) => {
+        if (err) throw err;
+    });
+    console.log('teminated connection...');
+});
+
 app.get('/api/watched/shows', (req, res) => {
     let { userId, showId } = req.query;
     //create the connection to database
@@ -287,7 +310,7 @@ app.get('/api/remove/movies', (req, res) => {
         database: 'tracker',
     });
     connection.query(
-        'DELETE FROM WATCHLATER_M WHERE user_id = ? AND movie_id = ?',
+        'DELETE FROM M_WATCHED WHERE user_id = ? AND movie_id = ?',
         [userId, movieId],
         function (err) {
             if (err) throw err;

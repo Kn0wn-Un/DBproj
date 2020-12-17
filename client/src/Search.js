@@ -59,11 +59,11 @@ function Search() {
             <div className="results">
                 {showRes ? (
                     <div>
-                        <div className="shows">
-                            <h2>Shows:</h2> {<ShowSearch shows={shows} />}
-                        </div>
                         <div className="movies">
                             <h2>Movies:</h2> <MovieSearch movies={movies} />
+                        </div>
+                        <div className="shows">
+                            <h2>Shows:</h2> {<ShowSearch shows={shows} />}
                         </div>
                     </div>
                 ) : (
