@@ -10,7 +10,7 @@ function ShowDetail({ match, isAuth, user }) {
     const [trailer, setTrailer] = useState('');
     const [watch, setWatch] = useState(false);
     const [rent, setRent] = useState([]);
-    const [flatRate, setFlatRate] = useState([]);
+    const [ott, setOtt] = useState([]);
     const [buy, setBuy] = useState([]);
     const getInfo = async (name) => {
         await fetch(
@@ -43,7 +43,7 @@ function ShowDetail({ match, isAuth, user }) {
                 console.log(data.results.IN);
                 let lData = data.results.IN;
                 if (lData.flatrate) {
-                    setFlatRate(
+                    setOtt(
                         lData.flatrate.map((provider, index) => {
                             console.log(data.results.IN.flatrate);
                             return (
@@ -138,10 +138,10 @@ function ShowDetail({ match, isAuth, user }) {
                                         <ul>{rent}</ul>
                                     </div>
                                 ) : null}
-                                {flatRate.length > 0 ? (
+                                {ott.length > 0 ? (
                                     <div>
                                         <h4 className="heading">OTT:</h4>
-                                        <ul>{flatRate}</ul>
+                                        <ul>{ott}</ul>
                                     </div>
                                 ) : null}
                             </div>
