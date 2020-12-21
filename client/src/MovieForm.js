@@ -72,10 +72,14 @@ function MovieForm(props) {
     return (
         <div>
             {added ? (
-                <div>
-                    <h2>You have watched this movie!</h2>
-                    <div>Your Rating: {rating}</div>
-                    <div>Your Review: {review}</div>
+                <div className="watched-review">
+                    <h2>Movie watched!</h2>
+                    <div>
+                        <h5>Your Rating:</h5> {rating}
+                    </div>
+                    <div>
+                        <h5>Your Review:</h5> {review}
+                    </div>
                 </div>
             ) : (
                 <div>

@@ -166,7 +166,7 @@ ol {
     align-self: center;
     cursor: pointer;
 }
-.select-active {
+.select:focus {
     background-color: gray;
     transform: scale(1.1);
     border-left: 2px solid black;
@@ -216,5 +216,21 @@ label {
     margin-top: 25px;
 }
 .watched-review {
-    word-wrap: break-word;
+    position: relative;
+    top: -50vh;
+    height: 50vh;
+    width: 20vw;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.watched-review h2 {
+    position: relative;
+    top: 20vh;
+}
+.watched-review div {
+    position: relative;
+    top: 20vh;
+}
+.td-link {
+    display: inline-table;
+    width: 100%;
 }

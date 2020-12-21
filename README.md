@@ -43,7 +43,7 @@
 
 ### APIs:
 
-1. [OMDb API](http://www.omdbapi.com/)
+1. [TMDB API](https://www.themoviedb.org/documentation/api)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

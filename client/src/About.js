@@ -60,7 +60,8 @@ function About(props) {
                         <div className="nav-head bg-dark">
                             <div
                                 className="select"
-                                onClick={() => {
+                                tabIndex="1"
+                                onClick={(e) => {
                                     setShow('shows');
                                 }}
                             >
@@ -68,6 +69,7 @@ function About(props) {
                             </div>
                             <div
                                 className="select"
+                                tabIndex="1"
                                 onClick={() => {
                                     setShow('movies');
                                 }}
@@ -76,6 +78,7 @@ function About(props) {
                             </div>
                             <div
                                 className="select"
+                                tabIndex="1"
                                 onClick={() => {
                                     setShow('wlMovies');
                                 }}
@@ -84,6 +87,7 @@ function About(props) {
                             </div>
                             <div
                                 className="select"
+                                tabIndex="1"
                                 onClick={() => {
                                     setShow('wlShows');
                                 }}

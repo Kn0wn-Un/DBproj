@@ -6,19 +6,16 @@ function UserTable(props) {
             return (
                 <tr key={item.id}>
                     <th scope="row">{index + 1}</th>
-                    <td>
-                        <Link
-                            className="unstyle text-white"
-                            to={
-                                props.show === 'shows' ||
-                                props.show === 'wlShows'
-                                    ? `/shows/${item.id}`
-                                    : `/movies/${item.id}`
-                            }
-                        >
-                            {item.name}
-                        </Link>
-                    </td>
+                    <Link
+                        className="unstyle text-white td-link"
+                        to={
+                            props.show === 'shows' || props.show === 'wlShows'
+                                ? `/shows/${item.id}`
+                                : `/movies/${item.id}`
+                        }
+                    >
+                        <td>{item.name}</td>
+                    </Link>
                     {props.show === 'wlMovies' ||
                     props.show === 'wlShows' ? null : (
                         <td>{item.ratings}</td>
