@@ -1,6 +1,7 @@
 import React from 'react';
 
 function UserSummary(props) {
+    console.log(props.data);
     return (
         <div className="user-summary">
             <div>

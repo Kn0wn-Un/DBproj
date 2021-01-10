@@ -496,75 +496,71 @@ app.get('/api/users', (req, res) => {
         password: 'toor',
         database: 'tracker',
     });
-    connection.query(
-        'SELECT * FROM users WHERE user_id = ?',
-        userId,
-        function (err, results) {
-            if (err) throw err;
-            data = { ...results[0] };
-            connection.query(
-                'SELECT m.id, m.name, w.ratings FROM movies m, M_WATCHED w WHERE m.id = w.movie_id AND w.user_id = ?; ',
-                userId,
-                function (err, results) {
-                    if (err) {
-                        connection.end((err) => {
-                            if (err) throw err;
-                        });
-                        throw err;
-                    }
-                    data.movies = [...results];
-                    console.log('got movie data');
-                    connection.query(
-                        'SELECT s.id, s.name, w.ratings FROM shows s, S_WATCHED w WHERE s.id = w.show_id AND w.user_id = ?; ',
-                        userId,
-                        function (err, results) {
-                            if (err) {
-                                connection.end((err) => {
-                                    if (err) throw err;
-                                });
-                                throw err;
-                            }
-                            data.shows = [...results];
-                            console.log('got show data');
-                            connection.query(
-                                'SELECT m.id, m.name FROM movies m, WATCHLATER_M w WHERE m.id = w.movie_id AND w.user_id = ?; ',
-                                userId,
-                                function (err, results) {
-                                    if (err) {
-                                        connection.end((err) => {
-                                            if (err) throw err;
-                                        });
-                                        throw err;
-                                    }
-                                    data.wlMovies = [...results];
-                                    console.log('got watchlater movies');
-                                    connection.query(
-                                        'SELECT s.id, s.name FROM shows s, WATCHLATER_S w WHERE s.id = w.show_id AND w.user_id = ?; ',
-                                        userId,
-                                        function (err, results) {
-                                            if (err) {
-                                                connection.end((err) => {
-                                                    if (err) throw err;
-                                                });
-                                                throw err;
-                                            }
-                                            data.wlShows = [...results];
-                                            console.log('got watchlater shows');
-                                            res.json(data);
-                                        }
-                                    );
-                                    console.log('sent user data');
+    connection.query('CALL get_user_data(?);', userId, function (err, results) {
+        if (err) throw err;
+        data = { ...results[0][0] };
+        connection.query(
+            'CALL get_user_movies(?);',
+            userId,
+            function (err, results) {
+                if (err) {
+                    connection.end((err) => {
+                        if (err) throw err;
+                    });
+                    throw err;
+                }
+                data.movies = [...results[0]];
+                console.log('got movie data');
+                connection.query(
+                    'CALL get_user_shows(?); ',
+                    userId,
+                    function (err, results) {
+                        if (err) {
+                            connection.end((err) => {
+                                if (err) throw err;
+                            });
+                            throw err;
+                        }
+                        data.shows = [...results[0]];
+                        console.log('got show data');
+                        connection.query(
+                            'CALL get_user_later_movies(?);',
+                            userId,
+                            function (err, results) {
+                                if (err) {
                                     connection.end((err) => {
                                         if (err) throw err;
                                     });
+                                    throw err;
                                 }
-                            );
-                        }
-                    );
-                }
-            );
-        }
-    );
+                                data.wlMovies = [...results[0]];
+                                console.log('got watchlater movies');
+                                connection.query(
+                                    'CALL get_user_later_shows(?);',
+                                    userId,
+                                    function (err, results) {
+                                        if (err) {
+                                            connection.end((err) => {
+                                                if (err) throw err;
+                                            });
+                                            throw err;
+                                        }
+                                        data.wlShows = [...results[0]];
+                                        console.log('got watchlater shows');
+                                        res.json(data);
+                                    }
+                                );
+                                console.log('sent user data');
+                                connection.end((err) => {
+                                    if (err) throw err;
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
     console.log('teminated connection...');
 });
 
