@@ -22,7 +22,6 @@ function MovieDetail({ match, isAuth, user }) {
                     'https://image.tmdb.org/t/p/original/' +
                         data.results[0].poster_path
                 );
-                console.log(data);
                 return fetch(
                     `https://api.themoviedb.org/3/movie/${data.results[0].id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
                 );
@@ -33,20 +32,16 @@ function MovieDetail({ match, isAuth, user }) {
                     if (data.results[i].type === 'Trailer')
                         setTrailer(data.results[i].key);
                 }
-                console.log(data);
                 return fetch(
                     `https://api.themoviedb.org/3/movie/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
                 );
             })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data.results.IN);
-                console.log(data.results.IN.flatrate);
                 let lData = data.results.IN;
                 if (lData.flatrate) {
                     setOtt(
                         lData.flatrate.map((provider, index) => {
-                            console.log(data.results.IN.flatrate);
                             return (
                                 <li key={index}>{provider.provider_name}</li>
                             );

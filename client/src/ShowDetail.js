@@ -6,7 +6,6 @@ import ShowForm from './ShowForm';
 function ShowDetail({ match, isAuth, user }) {
     const [name, setName] = useState({});
     const [gotData, setGot] = useState(false);
-    const [info, setInfo] = useState({});
     const [trailer, setTrailer] = useState('');
     const [watch, setWatch] = useState(false);
     const [rent, setRent] = useState([]);
@@ -18,11 +17,6 @@ function ShowDetail({ match, isAuth, user }) {
         )
             .then((res) => res.json())
             .then((data) => {
-                setInfo(
-                    'https://image.tmdb.org/t/p/original/' +
-                        data.results[0].poster_path
-                );
-                console.log(data);
                 return fetch(
                     `https://api.themoviedb.org/3/tv/${data.results[0].id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
                 );
@@ -33,19 +27,16 @@ function ShowDetail({ match, isAuth, user }) {
                     if (data.results[i].type === 'Trailer')
                         setTrailer(data.results[i].key);
                 }
-                console.log(data);
                 return fetch(
                     `https://api.themoviedb.org/3/tv/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
                 );
             })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data.results.IN);
                 let lData = data.results.IN;
                 if (lData.flatrate) {
                     setOtt(
                         lData.flatrate.map((provider, index) => {
-                            console.log(data.results.IN.flatrate);
                             return (
                                 <li key={index}>{provider.provider_name}</li>
                             );
