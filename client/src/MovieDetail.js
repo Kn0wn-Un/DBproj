@@ -47,11 +47,6 @@ function MovieDetail({ match, isAuth, user }) {
                         (p) => p.known_for_department === 'Writing'
                     )
                 );
-            })
-            .then((data) => {
-                console.log(actors.map((g) => g.name).join(', '));
-                console.log(director.map((g) => g.name).join(', '));
-                console.log(writer.map((g) => g.name).join(', '));
             });
         fetch(
             `https://api.themoviedb.org/3/movie/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`

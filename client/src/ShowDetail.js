@@ -4,36 +4,31 @@ import { useEffect, useState } from 'react';
 import ShowForm from './ShowForm';
 
 function ShowDetail({ match, isAuth, user }) {
-    const [name, setName] = useState({});
+    const [show, setShow] = useState({});
     const [gotData, setGot] = useState(false);
     const [trailer, setTrailer] = useState('');
     const [watch, setWatch] = useState(false);
     const [rent, setRent] = useState([]);
     const [ott, setOtt] = useState([]);
     const [buy, setBuy] = useState([]);
-    const getInfo = async (name) => {
-        await fetch(
-            `https://api.themoviedb.org/3/search/tv?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${name}&page=1`
+    const getInfo = async (s) => {
+        fetch(
+            `https://api.themoviedb.org/3/tv/${s.id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
         )
-            .then((res) => res.json())
-            .then((data) => {
-                return fetch(
-                    `https://api.themoviedb.org/3/tv/${data.results[0].id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
-                );
-            })
             .then((res) => res.json())
             .then((data) => {
                 for (let i = 0; i < data.results.length; i++) {
                     if (data.results[i].type === 'Trailer')
                         setTrailer(data.results[i].key);
                 }
-                return fetch(
-                    `https://api.themoviedb.org/3/tv/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
-                );
-            })
+            });
+        fetch(
+            `https://api.themoviedb.org/3/tv/${s.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+        )
             .then((res) => res.json())
             .then((data) => {
                 let lData = data.results.IN;
+                if (!lData) return;
                 if (lData.flatrate) {
                     setOtt(
                         lData.flatrate.map((provider, index) => {
@@ -43,8 +38,7 @@ function ShowDetail({ match, isAuth, user }) {
                         })
                     );
                 }
-                if (lData !== undefined) {
-                    setWatch(true);
+                if (lData.buy) {
                     setBuy(
                         lData.buy.map((provider, index) => {
                             return (
@@ -52,6 +46,8 @@ function ShowDetail({ match, isAuth, user }) {
                             );
                         })
                     );
+                }
+                if (lData.rent) {
                     setRent(
                         lData.rent.map((provider, index) => {
                             return (
@@ -60,16 +56,16 @@ function ShowDetail({ match, isAuth, user }) {
                         })
                     );
                 }
-            })
-            .catch(() => {});
+                setWatch(true);
+            });
     };
     const mkSeasons = () => {
         // eslint-disable-next-line no-eval
-        const sArr = eval(name.seasons).map((season, index) => {
+        const sArr = eval(show.seasons).map((season, index) => {
             return (
                 <li key={index}>
                     <span className="heading">Season {index + 1}: </span>
-                    <span>{season.nb_episodes} episodes</span>
+                    <span>{season.episode_count} episodes</span>
                 </li>
             );
         });
@@ -79,35 +75,53 @@ function ShowDetail({ match, isAuth, user }) {
         return (
             <div className="show-details">
                 <div>
-                    <img alt={name.name} src={name.poster_image}></img>
+                    <img
+                        alt={show.name}
+                        src={
+                            'https://image.tmdb.org/t/p/original/' +
+                            show.poster_path
+                        }
+                    ></img>
                     {isAuth ? (
                         <div className="show-form">
-                            <ShowForm show={name} user={user} />
+                            <ShowForm show={show} user={user} />
                         </div>
                     ) : null}
                 </div>
 
                 <div className="holder">
                     <div className="details">
-                        <h1 className="name">{name.name}</h1>
+                        <h1 className="name">{show.original_name}</h1>
+                        <div>
+                            <span className="heading">First Air Date: </span>{' '}
+                            {show.first_air_date}
+                        </div>
+                        <div>
+                            <span className="heading">Created By:</span>{' '}
+                            {show.created_by.map((c) => c.name).join(', ')}
+                        </div>
                         <div>
                             <span className="heading">Network: </span>
-                            {name.network}
+                            {show.networks.map((n) => n.name).join(', ')}
+                        </div>
+                        <div>
+                            <span className="heading">Genre:</span>{' '}
+                            {show.genres.map((g) => g.name).join(', ')}
                         </div>
                         <div>
                             <span className="heading">Number of Seasons: </span>{' '}
-                            {name.number_of_seasons}
+                            {show.number_of_seasons}
                         </div>
                         <ul>{mkSeasons()}</ul>
                         <div>
                             <span className="heading">Average Duration: </span>{' '}
-                            {name.runtime} mins
+                            {show.episode_run_time[0]} mins
                         </div>
                         {trailer !== '' ? (
                             <div className="trailer">
                                 <h1>Trailer</h1>
                                 <iframe
-                                    title={name.name}
+                                    title={show.name}
                                     width="420"
                                     height="315"
                                     src={`https://www.youtube.com/embed/${trailer}`}
@@ -143,13 +157,23 @@ function ShowDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
-        fetch(`/api/shows?id=${match.params.id}`)
+        fetch(
+            `https://api.themoviedb.org/3/tv/${match.params.id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+        )
             .then((res) => res.json())
             .then((data) => {
-                setName(data);
+                let temp = data;
+                setShow(temp);
                 setGot(true);
-                getInfo(data.name.replace(' ', '%20'));
+                getInfo(temp);
             });
+        //fetch(`/api/shows?id=${match.params.id}`)
+        //    .then((res) => res.json())
+        //    .then((data) => {
+        //        setName(data);
+        //        setGot(true);
+        //        getInfo(data.name.replace(' ', '%20'));
+        //    });
     }, []);
     return (
         <div className="App">
