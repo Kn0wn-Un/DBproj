@@ -84,8 +84,6 @@ function Search() {
                 // You would do something with both sets of data here
                 let tmdb = data[0].results;
                 let db = data[1];
-                console.log(tmdb);
-                console.log(db);
                 let join = [];
                 for (let i = 0; i < db.length; i++) {
                     for (let j = 0; j < tmdb.length; j++) {
@@ -98,7 +96,6 @@ function Search() {
                     }
                 }
                 setShows([...join]);
-                console.log(join);
             })
             .catch(function (error) {
                 // if there's an error, log it
