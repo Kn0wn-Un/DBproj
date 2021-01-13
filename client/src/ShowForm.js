@@ -23,7 +23,7 @@ function ShowForm(props) {
     };
     const getReview = async () => {
         await fetch(
-            `/api/watched/shows?userId=${props.user}&showId=${props.show.id}`
+            `/api/watched/shows?userId=${props.user}&showId=${props.id}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -35,7 +35,7 @@ function ShowForm(props) {
                 setReview(review);
             });
         await fetch(
-            `/api/watchlater/shows?userId=${props.user}&showId=${props.show.id}`
+            `/api/watchlater/shows?userId=${props.user}&showId=${props.id}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -45,17 +45,17 @@ function ShowForm(props) {
     };
     const addShowWatched = async () => {
         await fetch(
-            `/api/add/shows?userId=${props.user}&showId=${props.show.id}&rating=${rating}&review=${review}`
+            `/api/add/shows?userId=${props.user}&showId=${props.id}&rating=${rating}&review=${review}`
         );
     };
     const addWatchLater = async () => {
         await fetch(
-            `/api/watchlater/shows/add?userId=${props.user}&showId=${props.show.id}`
+            `/api/watchlater/shows/add?userId=${props.user}&showId=${props.id}`
         );
     };
     const remWatchLater = async () => {
         await fetch(
-            `/api/watchlater/shows/remove?userId=${props.user}&showId=${props.show.id}`
+            `/api/watchlater/shows/remove?userId=${props.user}&showId=${props.id}`
         );
     };
     const formHandler = (e) => {

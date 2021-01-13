@@ -23,7 +23,7 @@ function MovieForm(props) {
     };
     const getReview = async () => {
         await fetch(
-            `/api/watched/movies?userId=${props.user}&movieId=${props.movie.id}`
+            `/api/watched/movies?userId=${props.user}&movieId=${props.id}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -35,7 +35,7 @@ function MovieForm(props) {
                 setReview(review);
             });
         await fetch(
-            `/api/watchlater/movies?userId=${props.user}&movieId=${props.movie.id}`
+            `/api/watchlater/movies?userId=${props.user}&movieId=${props.id}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -45,22 +45,17 @@ function MovieForm(props) {
     };
     const addShowWatched = async () => {
         await fetch(
-            `/api/add/movies?userId=${props.user}&movieId=${props.movie.id}&rating=${rating}&review=${review}`
+            `/api/add/movies?userId=${props.user}&movieId=${props.id}&rating=${rating}&review=${review}`
         );
     };
-    //const remShowWatched = async () => {
-    //    await fetch(
-    //        `/api/remove/movies?userId=${props.user}&movieId=${props.movie.id}`
-    //    );
-    //};
     const addWatchLater = async () => {
         await fetch(
-            `/api/watchlater/movies/add?userId=${props.user}&movieId=${props.movie.id}`
+            `/api/watchlater/movies/add?userId=${props.user}&movieId=${props.id}`
         );
     };
     const remWatchLater = async () => {
         await fetch(
-            `/api/watchlater/movies/remove?userId=${props.user}&movieId=${props.movie.id}`
+            `/api/watchlater/movies/remove?userId=${props.user}&movieId=${props.id}`
         );
     };
     const formHandler = (e) => {

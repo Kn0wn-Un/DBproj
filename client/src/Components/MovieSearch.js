@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles.css';
 
 function MovieSearch(props) {
     const arr = props.movies.map((movie) => {
         return (
             <div key={movie.id} className="shelf">
-                <Link className="unstyle" to={`/movies/${movie.id}`}>
+                <Link className="unstyle" to={`/movies/${movie.dbId}`}>
                     <img
                         alt={movie.original_title}
                         className="poster-small"

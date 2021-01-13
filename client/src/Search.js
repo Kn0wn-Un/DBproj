@@ -29,29 +29,80 @@ function Search() {
     const getSearch = async (e) => {
         e.preventDefault();
         if (search.trim() === '') return;
-        await fetch(
-            `https://api.themoviedb.org/3/search/movie?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${search}&include_adult=false`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                setMovies([...data.results]);
+        Promise.all([
+            fetch(
+                `https://api.themoviedb.org/3/search/movie?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${search}&include_adult=false`
+            ),
+            fetch(`/api/search/movies?name=${search}`),
+        ])
+            .then(function (responses) {
+                // Get a JSON object from each of the responses
+                return Promise.all(
+                    responses.map(function (response) {
+                        return response.json();
+                    })
+                );
+            })
+            .then(function (data) {
+                // Log the data to the console
+                // You would do something with both sets of data here
+                let tmdb = data[0].results;
+                let db = data[1];
+                let join = [];
+                for (let i = 0; i < db.length; i++) {
+                    for (let j = 0; j < tmdb.length; j++) {
+                        if (db[i].name === tmdb[j].original_title) {
+                            let newM = tmdb[j];
+                            newM.dbId = db[i].id;
+                            tmdb.splice(j, 1);
+                            join.push(newM);
+                        }
+                    }
+                }
+                setMovies([...join]);
+            })
+            .catch(function (error) {
+                // if there's an error, log it
+                console.log(error);
             });
-        await fetch(
-            `https://api.themoviedb.org/3/search/tv?api_key=7f082a6e3dcc6c228b449d18649a5f25&page=1&query=${search}&include_adult=false`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                setShows([...data.results]);
-            });
-        await fetch(`/api/search/shows?name=${search}`)
-            .then((res) => res.json())
-            .then((data) => {
-                //setShows(data);
-            });
-        await fetch(`/api/search/movies?name=${search}`)
-            .then((res) => res.json())
-            .then((data) => {
-                //setMovies(data);
+        Promise.all([
+            fetch(
+                `https://api.themoviedb.org/3/search/tv?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${search}&include_adult=false`
+            ),
+            fetch(`/api/search/shows?name=${search}`),
+        ])
+            .then(function (responses) {
+                // Get a JSON object from each of the responses
+                return Promise.all(
+                    responses.map(function (response) {
+                        return response.json();
+                    })
+                );
+            })
+            .then(function (data) {
+                // Log the data to the console
+                // You would do something with both sets of data here
+                let tmdb = data[0].results;
+                let db = data[1];
+                console.log(tmdb);
+                console.log(db);
+                let join = [];
+                for (let i = 0; i < db.length; i++) {
+                    for (let j = 0; j < tmdb.length; j++) {
+                        if (db[i].name === tmdb[j].original_name) {
+                            let newS = tmdb[j];
+                            newS.dbId = db[i].id;
+                            tmdb.splice(j, 1);
+                            join.push(newS);
+                        }
+                    }
+                }
+                setShows([...join]);
+                console.log(join);
+            })
+            .catch(function (error) {
+                // if there's an error, log it
+                console.log(error);
             });
     };
     return (

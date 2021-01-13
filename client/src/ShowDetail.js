@@ -11,52 +11,74 @@ function ShowDetail({ match, isAuth, user }) {
     const [rent, setRent] = useState([]);
     const [ott, setOtt] = useState([]);
     const [buy, setBuy] = useState([]);
-    const getInfo = async (s) => {
+    const getInfo = async (name) => {
         fetch(
-            `https://api.themoviedb.org/3/tv/${s.id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+            `https://api.themoviedb.org/3/search/tv?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${name}&page=1`
         )
             .then((res) => res.json())
             .then((data) => {
-                for (let i = 0; i < data.results.length; i++) {
-                    if (data.results[i].type === 'Trailer')
-                        setTrailer(data.results[i].key);
-                }
-            });
-        fetch(
-            `https://api.themoviedb.org/3/tv/${s.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                let lData = data.results.IN;
-                if (!lData) return;
-                if (lData.flatrate) {
-                    setOtt(
-                        lData.flatrate.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                let id = data.results[0].id;
+                fetch(
+                    `https://api.themoviedb.org/3/tv/${id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.status_code) return;
+                        setShow(data);
+                        setGot(true);
+                    });
+                fetch(
+                    `https://api.themoviedb.org/3/tv/${id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        for (let i = 0; i < data.results.length; i++) {
+                            if (data.results[i].type === 'Trailer')
+                                setTrailer(data.results[i].key);
+                        }
+                    });
+                fetch(
+                    `https://api.themoviedb.org/3/tv/${id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        let lData = data.results.IN;
+                        if (!lData) return;
+                        if (lData.flatrate) {
+                            setOtt(
+                                lData.flatrate.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                if (lData.buy) {
-                    setBuy(
-                        lData.buy.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                        }
+                        if (lData.buy) {
+                            setBuy(
+                                lData.buy.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                if (lData.rent) {
-                    setRent(
-                        lData.rent.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                        }
+                        if (lData.rent) {
+                            setRent(
+                                lData.rent.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                setWatch(true);
+                        }
+                        setWatch(true);
+                    });
             });
     };
     const mkSeasons = () => {
@@ -84,7 +106,7 @@ function ShowDetail({ match, isAuth, user }) {
                     ></img>
                     {isAuth ? (
                         <div className="show-form">
-                            <ShowForm show={show} user={user} />
+                            <ShowForm id={match.params.id} user={user} />
                         </div>
                     ) : null}
                 </div>
@@ -157,23 +179,11 @@ function ShowDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
-        fetch(
-            `https://api.themoviedb.org/3/tv/${match.params.id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
-        )
+        fetch(`/api/shows?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
-                let temp = data;
-                setShow(temp);
-                setGot(true);
-                getInfo(temp);
+                getInfo(data.name);
             });
-        //fetch(`/api/shows?id=${match.params.id}`)
-        //    .then((res) => res.json())
-        //    .then((data) => {
-        //        setName(data);
-        //        setGot(true);
-        //        getInfo(data.name.replace(' ', '%20'));
-        //    });
     }, []);
     return (
         <div className="App">

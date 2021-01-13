@@ -14,75 +14,97 @@ function MovieDetail({ match, isAuth, user }) {
     const [actors, setActors] = useState([]);
     const [director, setDirector] = useState([]);
     const [writer, setWriter] = useState([]);
-    const getDetails = (data) => {
+    const getDetails = async (name) => {
         fetch(
-            `https://api.themoviedb.org/3/movie/${data.id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+            `https://api.themoviedb.org/3/search/movie?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${name}&page=1`
         )
             .then((res) => res.json())
             .then((data) => {
-                for (let i = 0; i < data.results.length; i++) {
-                    if (data.results[i].type === 'Trailer')
-                        setTrailer(data.results[i].key);
-                }
-            });
-        fetch(
-            `https://api.themoviedb.org/3/movie/${data.id}/credits?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setActors(
-                    data.cast.filter(
-                        (p, index) =>
-                            p.known_for_department === 'Acting' && index < 11
-                    )
-                );
-                setDirector(
-                    data.crew.filter(
-                        (p) => p.known_for_department === 'Directing'
-                    )
-                );
-                setWriter(
-                    data.crew.filter(
-                        (p) => p.known_for_department === 'Writing'
-                    )
-                );
-            });
-        fetch(
-            `https://api.themoviedb.org/3/movie/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                let lData = data.results.IN;
-                if (!lData) return;
-                if (lData.flatrate) {
-                    setOtt(
-                        lData.flatrate.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                let id = data.results[0].id;
+                fetch(
+                    `https://api.themoviedb.org/3/movie/${id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.status_code) return;
+                        setmovie(data);
+                        setGot(true);
+                    });
+                fetch(
+                    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        for (let i = 0; i < data.results.length; i++) {
+                            if (data.results[i].type === 'Trailer')
+                                setTrailer(data.results[i].key);
+                        }
+                    });
+                fetch(
+                    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setActors(
+                            data.cast.filter(
+                                (p, index) =>
+                                    p.known_for_department === 'Acting' &&
+                                    index < 11
+                            )
+                        );
+                        setDirector(
+                            data.crew.filter(
+                                (p) => p.known_for_department === 'Directing'
+                            )
+                        );
+                        setWriter(
+                            data.crew.filter(
+                                (p) => p.known_for_department === 'Writing'
+                            )
+                        );
+                    });
+                fetch(
+                    `https://api.themoviedb.org/3/movie/${id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+                )
+                    .then((res) => res.json())
+                    .then((data) => {
+                        let lData = data.results.IN;
+                        if (!lData) return;
+                        if (lData.flatrate) {
+                            setOtt(
+                                lData.flatrate.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                if (lData.buy) {
-                    setBuy(
-                        lData.buy.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                        }
+                        if (lData.buy) {
+                            setBuy(
+                                lData.buy.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                if (lData.rent) {
-                    setRent(
-                        lData.rent.map((provider, index) => {
-                            return (
-                                <li key={index}>{provider.provider_name}</li>
+                        }
+                        if (lData.rent) {
+                            setRent(
+                                lData.rent.map((provider, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {provider.provider_name}
+                                        </li>
+                                    );
+                                })
                             );
-                        })
-                    );
-                }
-                setWatch(true);
+                        }
+                        setWatch(true);
+                    });
             });
     };
     const showMovie = () => {
@@ -98,14 +120,14 @@ function MovieDetail({ match, isAuth, user }) {
                     ></img>
                     {isAuth ? (
                         <div className="show-form">
-                            <MovieForm movie={movie} user={user} />
+                            <MovieForm id={match.params.id} user={user} />
                         </div>
                     ) : null}
                 </div>
 
                 <div className="holder">
                     <div className="details">
-                        <h1>{movie.name}</h1>
+                        <h1>{movie.original_title}</h1>
                         <div>
                             <span className="heading">Release Date:</span>{' '}
                             {movie.release_date}
@@ -180,19 +202,10 @@ function MovieDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
-        fetch(
-            `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.status_code) return;
-                setmovie(data);
-                setGot(true);
-                getDetails(data);
-            });
         fetch(`/api/movies?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
+                getDetails(data.name);
                 return;
             });
     }, []);
@@ -204,7 +217,3 @@ function MovieDetail({ match, isAuth, user }) {
 }
 
 export default MovieDetail;
-
-/*                        
-                       
-                       */
