@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import '../styles.css';
 
 function ShowSearch(props) {
-    const arr = props.shows.map((show, index) => {
+    const arr = props.shows.map((show) => {
         return (
             <div key={show.id} className="shelf">
                 <Link className="unstyle" to={`/shows/${show.id}`}>
                     <img
                         alt={show.name}
-                        src={show.poster_image}
+                        src={
+                            'https://image.tmdb.org/t/p/original/' +
+                            show.poster_path
+                        }
                         className="poster-small"
                     ></img>
                     <div>{show.name}</div>

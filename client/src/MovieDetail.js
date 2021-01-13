@@ -6,39 +6,60 @@ import MovieForm from './MovieForm';
 function MovieDetail({ match, isAuth, user }) {
     const [movie, setmovie] = useState({});
     const [gotData, setGot] = useState(false);
-    const [poster, setPoster] = useState('');
     const [trailer, setTrailer] = useState('');
     const [watch, setWatch] = useState(false);
     const [rent, setRent] = useState([]);
     const [ott, setOtt] = useState([]);
     const [buy, setBuy] = useState([]);
-    const getPoster = async (name) => {
-        await fetch(
-            `https://api.themoviedb.org/3/search/movie?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${name}&page=1`
+    const [actors, setActors] = useState([]);
+    const [director, setDirector] = useState([]);
+    const [writer, setWriter] = useState([]);
+    const getDetails = (data) => {
+        fetch(
+            `https://api.themoviedb.org/3/movie/${data.id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
         )
-            .then((res) => res.json())
-            .then((data) => {
-                setPoster(
-                    'https://image.tmdb.org/t/p/original/' +
-                        data.results[0].poster_path
-                );
-                return fetch(
-                    `https://api.themoviedb.org/3/movie/${data.results[0].id}/videos?api_key=7f082a6e3dcc6c228b449d18649a5f25`
-                );
-            })
             .then((res) => res.json())
             .then((data) => {
                 for (let i = 0; i < data.results.length; i++) {
                     if (data.results[i].type === 'Trailer')
                         setTrailer(data.results[i].key);
                 }
-                return fetch(
-                    `https://api.themoviedb.org/3/movie/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+            });
+        fetch(
+            `https://api.themoviedb.org/3/movie/${data.id}/credits?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setActors(
+                    data.cast.filter(
+                        (p, index) =>
+                            p.known_for_department === 'Acting' && index < 11
+                    )
+                );
+                setDirector(
+                    data.crew.filter(
+                        (p) => p.known_for_department === 'Directing'
+                    )
+                );
+                setWriter(
+                    data.crew.filter(
+                        (p) => p.known_for_department === 'Writing'
+                    )
                 );
             })
+            .then((data) => {
+                console.log(actors.map((g) => g.name).join(', '));
+                console.log(director.map((g) => g.name).join(', '));
+                console.log(writer.map((g) => g.name).join(', '));
+            });
+        fetch(
+            `https://api.themoviedb.org/3/movie/${data.id}/watch/providers?api_key=7f082a6e3dcc6c228b449d18649a5f25`
+        )
             .then((res) => res.json())
             .then((data) => {
                 let lData = data.results.IN;
+                if (!lData) return;
                 if (lData.flatrate) {
                     setOtt(
                         lData.flatrate.map((provider, index) => {
@@ -48,8 +69,7 @@ function MovieDetail({ match, isAuth, user }) {
                         })
                     );
                 }
-                if (lData !== undefined) {
-                    setWatch(true);
+                if (lData.buy) {
                     setBuy(
                         lData.buy.map((provider, index) => {
                             return (
@@ -57,6 +77,8 @@ function MovieDetail({ match, isAuth, user }) {
                             );
                         })
                     );
+                }
+                if (lData.rent) {
                     setRent(
                         lData.rent.map((provider, index) => {
                             return (
@@ -65,14 +87,20 @@ function MovieDetail({ match, isAuth, user }) {
                         })
                     );
                 }
-            })
-            .catch(() => {});
+                setWatch(true);
+            });
     };
     const showMovie = () => {
         return (
             <div className="show-details">
                 <div>
-                    <img alt={movie.name} src={poster}></img>
+                    <img
+                        alt={movie.original_title}
+                        src={
+                            'https://image.tmdb.org/t/p/original/' +
+                            movie.poster_path
+                        }
+                    ></img>
                     {isAuth ? (
                         <div className="show-form">
                             <MovieForm movie={movie} user={user} />
@@ -84,35 +112,38 @@ function MovieDetail({ match, isAuth, user }) {
                     <div className="details">
                         <h1>{movie.name}</h1>
                         <div>
-                            <span className="heading">Year:</span> {movie.year}
+                            <span className="heading">Release Date:</span>{' '}
+                            {movie.release_date}
+                        </div>
+                        <div>
+                            <span className="heading">Runtime:</span>{' '}
+                            {movie.runtime} mins
                         </div>
                         <div>
                             <span className="heading">Genre:</span>{' '}
-                            {movie.genre}
+                            {movie.genres.map((g) => g.name).join(', ')}
                         </div>
                         <div>
                             <span className="heading">Production Company:</span>{' '}
-                            {movie.production_company}
+                            {movie.production_companies
+                                .map((p) => p.name)
+                                .join(', ')}
                         </div>
                         <div>
-                            <span className="heading">Duration:</span>{' '}
-                            {movie.duration} mins
+                            <span className="heading">Writers:</span>{' '}
+                            {writer.map((g) => g.name).join(', ')}
                         </div>
                         <div>
-                            <span className="heading">Writer:</span>{' '}
-                            {movie.writer}
-                        </div>
-                        <div>
-                            <span className="heading">Director:</span>{' '}
-                            {movie.director}
+                            <span className="heading">Directors:</span>{' '}
+                            {director.map((g) => g.name).join(', ')}
                         </div>
                         <div className="limit">
-                            <span className="heading">Actors:</span>{' '}
-                            {movie.actors}
+                            <span className="heading">Cast:</span>{' '}
+                            {actors.map((g) => g.name).join(', ')}
                         </div>
                         <div className="limit">
                             <span className="heading">Summary:</span>{' '}
-                            {movie.description}
+                            {movie.overview}
                         </div>
                         {trailer !== '' ? (
                             <div className="trailer">
@@ -154,12 +185,20 @@ function MovieDetail({ match, isAuth, user }) {
         );
     };
     useEffect(() => {
+        fetch(
+            `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=7f082a6e3dcc6c228b449d18649a5f25&language=en-US`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status_code) return;
+                setmovie(data);
+                setGot(true);
+                getDetails(data);
+            });
         fetch(`/api/movies?id=${match.params.id}`)
             .then((res) => res.json())
             .then((data) => {
-                setmovie(data);
-                setGot(true);
-                getPoster(data.name.replace(' ', '%20'));
+                return;
             });
     }, []);
     return (
@@ -170,3 +209,7 @@ function MovieDetail({ match, isAuth, user }) {
 }
 
 export default MovieDetail;
+
+/*                        
+                       
+                       */

@@ -29,15 +29,29 @@ function Search() {
     const getSearch = async (e) => {
         e.preventDefault();
         if (search.trim() === '') return;
+        await fetch(
+            `https://api.themoviedb.org/3/search/movie?api_key=7f082a6e3dcc6c228b449d18649a5f25&query=${search}&include_adult=false`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                setMovies([...data.results]);
+            });
+        await fetch(
+            `https://api.themoviedb.org/3/search/tv?api_key=7f082a6e3dcc6c228b449d18649a5f25&page=1&query=${search}&include_adult=false`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                setShows([...data.results]);
+            });
         await fetch(`/api/search/shows?name=${search}`)
             .then((res) => res.json())
             .then((data) => {
-                setShows(data);
+                //setShows(data);
             });
         await fetch(`/api/search/movies?name=${search}`)
             .then((res) => res.json())
             .then((data) => {
-                setMovies(data);
+                //setMovies(data);
             });
     };
     return (

@@ -7,11 +7,14 @@ function MovieSearch(props) {
             <div key={movie.id} className="shelf">
                 <Link className="unstyle" to={`/movies/${movie.id}`}>
                     <img
-                        alt={movie.name}
+                        alt={movie.original_title}
                         className="poster-small"
-                        src="https://i.pinimg.com/originals/96/a0/0d/96a00d42b0ff8f80b7cdf2926a211e47.jpg"
+                        src={
+                            'https://image.tmdb.org/t/p/original/' +
+                            movie.poster_path
+                        }
                     ></img>
-                    <div>{movie.name}</div>
+                    <div>{movie.original_title}</div>
                 </Link>
             </div>
         );
